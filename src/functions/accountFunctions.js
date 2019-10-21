@@ -9,7 +9,6 @@ export const signOut = () => {
 };
 
 export const signInAccount = (email, password, callback, errorCallback) => {
-  callback({"okokok": "ijj"});
   authRef.signInWithEmailAndPassword(email, password).then(account => {
     callback(account);
   }).catch(function (error) {

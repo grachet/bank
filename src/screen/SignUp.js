@@ -9,8 +9,8 @@ import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
+import {Link as RouterLink, useHistory} from "react-router-dom";
 import Container from '@material-ui/core/Container';
-import {Link as RouterLink} from "react-router-dom";
 import Copyright from "../components/Copyright"
 import {createAccount} from "../functions/accountFunctions";
 import {FormHelperText} from "@material-ui/core";
@@ -47,6 +47,7 @@ export default function SignUp({onSign}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  let history = useHistory();
 
   return (
     <Container component="main" maxWidth="xs">
@@ -121,7 +122,10 @@ export default function SignUp({onSign}) {
           </Grid>
           <FormHelperText error>{errorMessage}</FormHelperText>
           <Button
-            onClick={() => createAccount(email, password, {name, firstName}, onSign,setErrorMessage)}
+            onClick={() => createAccount(email, password, {name, firstName}, (acc) => {
+              onSign(acc);
+              history.push("/account")
+            }, setErrorMessage)}
             fullWidth
             variant="contained"
             color="primary"

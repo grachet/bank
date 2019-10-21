@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
-import {Link as RouterLink} from "react-router-dom";
+import {Link as RouterLink, useHistory} from "react-router-dom";
 import Copyright from "../components/Copyright"
 import {signInAccount} from "../functions/accountFunctions";
 import {FormHelperText} from "@material-ui/core";
@@ -50,6 +50,7 @@ export default function SignIn({onSign}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  let history = useHistory();
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -98,7 +99,10 @@ export default function SignIn({onSign}) {
               label="Remember me"
             />*/}
             <Button
-              onClick={() => signInAccount(email, password, onSign, setErrorMessage)}
+              onClick={() => signInAccount(email, password, (acc) => {
+                onSign(acc);
+                history.push("/account")
+              }, setErrorMessage)}
               fullWidth
               variant="contained"
               color="primary"

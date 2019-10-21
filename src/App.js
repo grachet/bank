@@ -23,11 +23,6 @@ function App() {
 
   const [account, setAccount] = useState(null);
 
-  let onSign = (args) => {
-    setAccount(args)
-
-  }
-
   return (
     <ThemeProvider theme={mainTheme}>
 
@@ -35,10 +30,10 @@ function App() {
       <Router>
         <Switch>
           <Route path="/signin">
-            <SignIn onSign={onSign}/>
+            <SignIn onSign={setAccount}/>
           </Route>
           <Route path="/signup">
-            <SignUp onSign={onSign}/>
+            <SignUp onSign={setAccount}/>
           </Route>
           <Route path="/account">
             {requireAuth(
