@@ -1,0 +1,142 @@
+{
+  "projects": {
+    "shil32dhld": {
+      "projectId": "shil32dhld",
+      "rootCourseNumber": "RA41210",
+      "creationTimestamp": "2018-10-17T18:36:13+02:00",
+      "lastModificationTimestamp": "2018-10-17T18:36:13+02:00",
+      "productName": "free string",
+      "productSubject": "free string",
+      "subjects": "free string",
+      "trainingType": "free or categories...",
+      "productRelease": "R 18.0",
+      "productRRRR": "1800",
+      "status": "Development | Review | Production | Completed",
+      "level": "standard | aware,advanced | expert | not applicable",
+      "shortDescription": "free text up to 5000",
+      "Objectives": "free",
+      "deliveryFormat": "Dual Instr Led Virtual or F2F & curricula WBT | Instructor led F2F Classroom only | Instructor led Virtual or F2F Classroom | Instructor led Virtual only |  Web Based Training (SCORM, AICC) | Curricula (eg WBT chunks content or blended)",
+      "Keywords": [
+        "mot",
+        "mot"
+      ],
+      "courses": [
+        "courseId",
+        "courseId"
+      ],
+      "documents": [
+        "documentId",
+        "documentId"
+      ],
+      "users": {
+        "guillaume.rachet@nokia.com": {
+          "role": "Developer | Project Manager | Designer",
+          "mailId": "guillaume.rachet@nokia.com"
+        },
+        "...": "..."
+      }
+    },
+    "...": "..."
+  },
+  "users": {
+    "guillaume.rachet@nokia.com": {
+      "firstName": "guillaume",
+      "lastName": "rachet",
+      "mailId": "guillaume.rachet@nokia.com",
+      "workPlace": "Nokia - FR/Paris-Saclay"
+    },
+    "...": "..."
+  },
+  "courses": {
+    "sqdqsqddsq": {
+      "coursesId": "sqdqsqddsq",
+      "loTypeCode": "K | V | C | W | M",
+      "status": "Planned | In_Development | Completed",
+      "durationMinutes": 550,
+      "imgUrl": "url",
+      "price": 200,
+      "cost": 100,
+      "minimumRegistration": 999,
+      "maximumRegistration": 999,
+      "attachment": {
+        "sdsqdsq": {
+          "attachmentId": "sdsqdsq",
+          "attachmentName": "free",
+          "attachmentUrl": "url"
+        },
+        "...": "..."
+      },
+      "sections": [
+        {
+          "sectionName": "free",
+          "module": [
+            "moduleId",
+            "moduleId",
+            "moduleId"
+          ]
+        },
+        "..."
+      ]
+    },
+    "...": "..."
+  },
+  "modules": {
+    "sqfesq": {
+      "moduleId": "sqfesq",
+      "originalModuleId": "si copie (remplace le partnumber)",
+      "moduleType": "StdPPTX | Video (file or link) | Material (file or link) | ??? Event CSOD (un chapitre/fichier du course content) | learningObject",
+      "moduleName": "free",
+      "versionEdition": "V180_Ed1",
+      "Keywords": [
+        "Keywords",
+        "Keywords"
+      ],
+      "Objective": [
+        "Objective",
+        "Objective"
+      ],
+      "Topics": [
+        "Topics",
+        "Topics"
+      ],
+      "attachment": {
+        "sdsqdsq": {
+          "attachmentId": "sdsqdsq",
+          "attachmentName": "free",
+          "attachmentUrl": "url"
+        },
+        "...": "..."
+      }
+    },
+    "...": "..."
+  },
+  "documents": {
+    "erezrzee": {
+      "documentId": "erezrzee",
+      "type": "labGuide | annexes | studentGuide",
+      "documentName": "free",
+      "sections": [
+        {
+          "sectionName": "free",
+          "module": [
+            "moduleId",
+            "moduleId",
+            "moduleId"
+          ]
+        },
+        "..."
+      ]
+    },
+    "...": "..."
+  },
+  "View projectsByUsers": {
+    "guillaume.rachet@nokia.com": {
+      "projects": [
+        "sqdH33SKdaSDL",
+        "sqdH33SKdaSDL"
+      ],
+      "userId": "guillaume.rachet@nokia.com"
+    },
+    "...": "..."
+  }
+}
