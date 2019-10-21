@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Navigation from '../containers/Navigation'
 
-export default class Setting extends Component {
+export default class Validation extends Component {
 
   render() {
 
