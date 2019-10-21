@@ -5,10 +5,24 @@ import SignUp from "./screen/SignUp"
 import {Route, Switch,BrowserRouter as Router} from "react-router-dom";
 import Validation from "./screen/Validation";
 import Account from "./screen/Account";
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+
+
+const mainTheme = createMuiTheme({
+  palette: {
+    primary : {
+      main : "#202020"
+    },
+    secondary: {
+      main: "#3BD0D6"
+    },
+  },
+});
 
 function App() {
 
   return (
+    <ThemeProvider theme={mainTheme}>
     <Router>
       <Switch>
         <Route path="/signin">
@@ -28,6 +42,7 @@ function App() {
         </Route>
       </Switch>
     </Router>
+    </ThemeProvider>
   );
 }
 
