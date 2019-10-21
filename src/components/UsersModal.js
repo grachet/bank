@@ -11,7 +11,6 @@ import AddIcon from '@material-ui/icons/Add';
 import blue from '@material-ui/core/colors/blue';
 import PromptDialogue from '../components/PromptDialogue'
 import AlertDialogue from '../components/AlertDialogue'
-import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 
 var uniqid = require('uniqid');
@@ -132,10 +131,5 @@ class SimpleDialog extends React.Component {
     );
   }
 }
-
-SimpleDialog.propTypes = {
-  classes: PropTypes.object.isRequired,
-  onClose: PropTypes.func,
-};
 
 export default withStyles(styles)(SimpleDialog);

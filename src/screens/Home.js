@@ -2,16 +2,8 @@ import React, {Component} from 'react';
 import Navigation from '../containers/Navigation'
 import styles from './styles/homeStyle'
 import {withStyles} from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import ProjectCard from '../components/ProjectCard'
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
 import connect from "react-redux/es/connect/connect";
 import {bindActionCreators} from 'redux';
-import {fetchProjects, removeProject, updateProject} from '../redux/actions/projects'
-import PromptDialogue from '../components/PromptDialogue'
-import UsersModal from '../components/UsersModal'
 
 var _ = require('lodash');
 var uniqid = require('uniqid');
@@ -45,7 +37,7 @@ class Home extends Component {
 
   onValidateCreateProject = (project) => {
     //todo
-    const {uid, email, displayName} = this.props.user;
+    const {uid, email, displayName} = this.props.account;
     let id = uniqid()
     this.props.updateProject({
       ...project,
@@ -68,51 +60,19 @@ class Home extends Component {
     return (
       <div className={classes.container}>
         <Navigation/>
-        <Button onClick={() => this.openCreateProject()} variant="fab" color="secondary" aria-label="Add"
-                className={classes.fab}>
-          <AddIcon/>
-        </Button>
-        <PromptDialogue
-          open={this.state.openCreateProject}
-          onCancel={this.closeCreateProject}
-          onOk={this.onValidateCreateProject}
-          title={"New travel"}
-          text={"Where do you want to go ?"}
-          textfield={[{title: "Project name", name: "projectName"}]}
-        />
-        <UsersModal
-          users={this.props.users}
-          updateProject={this.props.updateProject}
-          closeUsersModal={this.closeUsersModal}
-          openUsersModal={this.openUsersModal}
-          project={this.props.projects && this.props.projects[this.projectId]}
-          open={this.state.openUsersModal}/>
-        <Typography variant="display1" className={classes.myl} color="textPrimary">My projects</Typography>
-        <Grid container className={classes.cardContainer} spacing={24}>
-          {projects && _.orderBy(_.values(projects), function (o) {
-            return new moment(o.creationTimestamp);
-          }, ['asc']).map(project => <Grid key={project.projectId} item xs={12} sm={6} md={6} lg={4} xl={3}>
-            <ProjectCard
-              removeProject={this.props.removeProject}
-              openUsersModal={this.openUsersModal}
-              project={project}/>
-          </Grid>)}
-        </Grid>
       </div>
     );
   }
 }
 
 
-const mapStateToProps = ({user, projects, users}) => {
+const mapStateToProps = ({user}) => {
   return {
-    projects, user, users
+    user
   };
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  removeProject, updateProject, fetchProjects
-}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
 
 export default withStyles(styles, {withTheme: true})(connect(mapStateToProps, mapDispatchToProps)(Home));
 

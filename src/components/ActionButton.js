@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import SpeedDial from '@material-ui/lab/SpeedDial';
@@ -98,8 +97,5 @@ class SpeedDialTooltipOpen extends React.Component {
   }
 }
 
-SpeedDialTooltipOpen.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(SpeedDialTooltipOpen);
