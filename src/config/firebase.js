@@ -7,5 +7,4 @@ firebase.initializeApp(FirebaseConfig);
 export const databaseRef = firebase.database().ref();
 export const accountRef = databaseRef.child("account");
 export const authRef = firebase.auth();
-export const userRef = databaseRef.child("user");
 

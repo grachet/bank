@@ -1,10 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
@@ -13,7 +11,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import {Link as RouterLink} from "react-router-dom";
-import Copyright from  "../components/Copyright"
+import Copyright from "../components/Copyright"
+import {signInAccount} from "../functions/accountFunctions";
+import {FormHelperText} from "@material-ui/core";
 
 
 const useStyles = makeStyles(theme => ({
@@ -45,8 +45,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SignIn() {
+export default function SignIn({onSign}) {
   const classes = useStyles();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -60,8 +63,9 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form}>
             <TextField
+              error={errorMessage}
               variant="outlined"
               margin="normal"
               required
@@ -70,9 +74,12 @@ export default function SignIn() {
               label="Email Address"
               name="email"
               autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               autoFocus
             />
             <TextField
+              error={errorMessage}
               variant="outlined"
               margin="normal"
               required
@@ -82,13 +89,16 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
-            <FormControlLabel
+            <FormHelperText error>{errorMessage}</FormHelperText>
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary"/>}
               label="Remember me"
-            />
+            />*/}
             <Button
-              type="submit"
+              onClick={() => signInAccount(email, password, onSign, setErrorMessage)}
               fullWidth
               variant="contained"
               color="primary"
@@ -99,11 +109,11 @@ export default function SignIn() {
             <Grid container justify={"flex-end"}>
               <Grid item>
 
-                  <RouterLink to="/signup">
-                    <Link  variant="body2">
+                <RouterLink to="/signup">
+                  <Link variant="body2">
                     Don't have an account? Sign Up
-                    </Link>
-                  </RouterLink>
+                  </Link>
+                </RouterLink>
               </Grid>
             </Grid>
             <Box mt={5}>
