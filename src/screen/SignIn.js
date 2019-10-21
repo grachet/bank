@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundImage: 'url(https://source.unsplash.com/1600x900/?skyscraper)',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
@@ -74,6 +74,7 @@ export default function SignIn({onSign}) {
               id="email"
               label="Email Address"
               name="email"
+              type={"email"}
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -101,7 +102,7 @@ export default function SignIn({onSign}) {
             <Button
               onClick={() => signInAccount(email, password, (acc) => {
                 onSign(acc);
-                history.push("/account")
+                history.push("/")
               }, setErrorMessage)}
               fullWidth
               variant="contained"

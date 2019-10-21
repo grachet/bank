@@ -2,11 +2,12 @@ import React, {useState} from 'react';
 import './App.css';
 import SignIn from "./screen/SignIn"
 import SignUp from "./screen/SignUp"
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch,useHistory,Redirect} from "react-router-dom";
 import Validation from "./screen/Validation";
 import Account from "./screen/Account";
+import BankManager from "./screen/BankManager";
+
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
-import requireAuth from "./functions/requireAuth";
 
 const mainTheme = createMuiTheme({
   palette: {
@@ -23,6 +24,7 @@ function App() {
 
   const [account, setAccount] = useState(null);
 
+
   return (
     <ThemeProvider theme={mainTheme}>
 
@@ -33,23 +35,35 @@ function App() {
             <SignIn onSign={setAccount}/>
           </Route>
           <Route path="/signup">
-            <SignUp onSign={setAccount}/>
+            <SignUp account={account} onSign={setAccount}/>
           </Route>
-          <Route path="/account">
-            {requireAuth(
-              account ? <Account/> :
-                <Validation/>
-            )}
-          </Route>
-          <Route path="/">
-            {requireAuth(
-              account ? <Account/> :
-                <Validation/>
-            )}
-          </Route>
+          <PrivateRoute path="/">
+            {
+              account && account.role === "banker" ? <BankManager/> : account && account.role === "verified_account" ? <Account/> : <Validation/>
+            }
+          </PrivateRoute>
         </Switch>
       </Router>
     </ThemeProvider>
+  );
+}
+
+function PrivateRoute({ children, account, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        account ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/signin",
+            }}
+          />
+        )
+      }
+    />
   );
 }
 

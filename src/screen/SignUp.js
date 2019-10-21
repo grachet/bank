@@ -124,7 +124,7 @@ export default function SignUp({onSign}) {
           <Button
             onClick={() => createAccount(email, password, {name, firstName}, (acc) => {
               onSign(acc);
-              history.push("/account")
+              history.push("/")
             }, setErrorMessage)}
             fullWidth
             variant="contained"
