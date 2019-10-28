@@ -21,14 +21,9 @@ const mainTheme = createMuiTheme({
 });
 
 function App() {
-
   const [account, setAccount] = useState(null);
-
-
   return (
     <ThemeProvider theme={mainTheme}>
-
-      {JSON.stringify(account)}
       <Router>
         <Switch>
           <Route path="/signin">
@@ -37,7 +32,7 @@ function App() {
           <Route path="/signup">
             <SignUp account={account} onSign={setAccount}/>
           </Route>
-          <PrivateRoute path="/">
+          <PrivateRoute path="/" account={account}>
             {
               account && account.role === "banker" ? <BankManager/> : account && account.role === "verified_account" ? <Account/> : <Validation/>
             }
@@ -59,6 +54,7 @@ function PrivateRoute({ children, account, ...rest }) {
           <Redirect
             to={{
               pathname: "/signin",
+              state: { from: location }
             }}
           />
         )
