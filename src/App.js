@@ -21,7 +21,7 @@ const mainTheme = createMuiTheme({
 });
 
 function App() {
-  const [account, setAccount] = useState(null);
+  const [account, setAccount] = useState("iji");
   return (
     <ThemeProvider theme={mainTheme}>
       <Router>
