@@ -1,6 +1,5 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Paper from '@material-ui/core/Paper';
@@ -9,8 +8,7 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import ValidationForm from '../components/ValidationForm';
-import Review from '../components/Review';
+import ValidationForm from "../components/ValidationForm";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -25,6 +23,11 @@ const useStyles = makeStyles(theme => ({
       marginLeft: 'auto',
       marginRight: 'auto',
     },
+  },
+  imgInterview: {
+    width: "80%",
+    maxWidth : 150,
+    margin : 20
   },
   paper: {
     marginTop: theme.spacing(3),
@@ -49,24 +52,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const steps = ['Send documents',  'Wait for our manual validation'];
-
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <ValidationForm/>;
-    case 2:
-      return <Review/>;
-    default:
-      throw new Error('Unknown step');
-  }
-}
-
 export default function Checkout() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
 
-  const handleNext = () => {
+  const handleValidate = () => {
     setActiveStep(activeStep + 1);
   };
 
@@ -89,44 +79,36 @@ export default function Checkout() {
             Validation
           </Typography>
           <Stepper activeStep={activeStep} className={classes.stepper}>
-            {steps.map(label => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
+            <Step key={"Send documents"}>
+              <StepLabel>{"Send documents"}</StepLabel>
+            </Step>
+            <Step key={"Wait for our manual validation"}>
+              <StepLabel>{"Wait for our manual validation"}</StepLabel>
+            </Step>
           </Stepper>
-          <React.Fragment>
-            {activeStep === steps.length ? (
-              <React.Fragment>
-                <Typography variant="h5" gutterBottom>
-                  Thank you for your order.
-                </Typography>
-                <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order confirmation, and will
-                  send you an update when your order has shipped.
-                </Typography>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                {getStepContent(activeStep)}
-                <div className={classes.buttons}>
-                  {activeStep !== 0 && (
-                    <Button onClick={handleBack} className={classes.button}>
-                      Back
-                    </Button>
-                  )}
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
-                  </Button>
-                </div>
-              </React.Fragment>
-            )}
-          </React.Fragment>
+          {activeStep === 0 ?
+            <ValidationForm/> :
+            <div>Our bankster should validate your account soon
+              <div style={{textAlign:"center"}}>
+              <img src={process.env.PUBLIC_URL + "/interview.svg"} className={classes.imgInterview} alt=""/>
+            </div>
+            </div>
+          }
+          <div className={classes.buttons}>
+            {activeStep === 1 ?
+              <Button onClick={handleBack} size={"small"} className={classes.button}>
+                Change document
+              </Button> :
+              <Button
+                size={"small"}
+                variant="contained"
+                color="primary"
+                onClick={handleValidate}
+                className={classes.button}
+              >
+                Validate
+              </Button>}
+          </div>
         </Paper>
       </main>
     </React.Fragment>
