@@ -9,11 +9,9 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ValidationForm from "../components/ValidationForm";
+import NavigationBar from "../components/NavigationBar";
 
 const useStyles = makeStyles(theme => ({
-  appBar: {
-    position: 'relative',
-  },
   layout: {
     width: 'auto',
     marginLeft: theme.spacing(2),
@@ -52,7 +50,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Checkout() {
+export default function Validation({account}) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
 
@@ -66,13 +64,7 @@ export default function Checkout() {
 
   return (
     <React.Fragment>
-      <AppBar position="absolute" color="default" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            Bankorama
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <NavigationBar account={account}/>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">

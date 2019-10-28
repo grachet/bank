@@ -6,6 +6,7 @@ import {BrowserRouter as Router, Route, Switch,useHistory,Redirect} from "react-
 import Validation from "./screen/Validation";
 import Account from "./screen/Account";
 import BankManager from "./screen/BankManager";
+import RemoveAccount from "./screen/RemoveAccount";
 
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
 
@@ -21,7 +22,7 @@ const mainTheme = createMuiTheme({
 });
 
 function App() {
-  const [account, setAccount] = useState("iji");
+  const [account, setAccount] = useState(null);
   return (
     <ThemeProvider theme={mainTheme}>
       <Router>
@@ -32,9 +33,12 @@ function App() {
           <Route path="/signup">
             <SignUp account={account} onSign={setAccount}/>
           </Route>
+          <Route path="/close">
+            <RemoveAccount account={account} onSign={setAccount}/>
+          </Route>
           <PrivateRoute path="/" account={account}>
             {
-              account && account.role === "banker" ? <BankManager/> : account && account.role === "verified_account" ? <Account/> : <Validation/>
+              account && account.role === "banker" ? <BankManager/> : account && account.role === "verified_account" ? <Account/> : <Validation account={account}/>
             }
           </PrivateRoute>
         </Switch>
