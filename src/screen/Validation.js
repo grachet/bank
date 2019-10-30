@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import ValidationForm from "../components/ValidationForm";
 import NavigationBar from "../components/NavigationBar";
 import {writeAccount} from "../functions/firebaseFuntion";
+import {putIdCard} from "../functions/fileFunctions";
 
 const useStyles = makeStyles(theme => ({
   layout: {
@@ -57,7 +58,9 @@ export default function Validation({account}) {
 
   const handleValidate = () => {
     setActiveStep(activeStep + 1);
-    writeAccount({...account, idCard, isBankManager}, account.id)
+    let file =  new Uint8Array([0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x2c, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21])
+    putIdCard(file,account.id);
+    writeAccount({...account, isBankManager}, account.id)
   };
 
   const handleBack = () => {

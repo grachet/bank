@@ -62,7 +62,7 @@ export default function SignIn({onSign}) {
             <LockOutlinedIcon/>
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Bankorama
           </Typography>
           <form className={classes.form}>
             <TextField

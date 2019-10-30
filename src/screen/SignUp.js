@@ -57,7 +57,7 @@ export default function SignUp({onSign}) {
           <LockOutlinedIcon/>
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Bankorama
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
