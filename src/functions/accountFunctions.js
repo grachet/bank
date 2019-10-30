@@ -1,4 +1,5 @@
 import {authRef} from "../config/firebase"
+import {writeAccount} from "./firebaseFuntion";
 
 export const signOut = () => {
   authRef.signOut().then(function () {
@@ -20,7 +21,9 @@ export const signInAccount = (email, password, callback, errorCallback) => {
 };
 
 export const createAccount = (email, password, info, callback, errorCallback) => {
-  authRef.createUserWithEmailAndPassword(email, password).then(account => {
+  authRef.createUserWithEmailAndPassword(email, password).then(user => {
+    let account = {email, ...info, id: user.user.uid};
+    writeAccount(account, account.id);
     callback(account);
   }).catch(function (error) {
     // Handle Errors here.
