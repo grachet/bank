@@ -10,8 +10,8 @@ export const signOut = () => {
 };
 
 export const signInAccount = (email, password, callback, errorCallback) => {
-  authRef.signInWithEmailAndPassword(email, password).then(account => {
-    callback(account);
+  authRef.signInWithEmailAndPassword(email, password).then(user => {
+    callback(user.user.uid);
   }).catch(function (error) {
     // Handle Errors here.
     var errorCode = error.code;
@@ -24,7 +24,7 @@ export const createAccount = (email, password, info, callback, errorCallback) =>
   authRef.createUserWithEmailAndPassword(email, password).then(user => {
     let account = {email, ...info, id: user.user.uid};
     writeAccount(account, account.id);
-    callback(account);
+    callback(account.id);
   }).catch(function (error) {
     // Handle Errors here.
     var errorCode = error.code;

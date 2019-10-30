@@ -2,13 +2,14 @@ import React, {useState} from 'react';
 import './App.css';
 import SignIn from "./screen/SignIn"
 import SignUp from "./screen/SignUp"
-import {BrowserRouter as Router, Route, Switch,useHistory,Redirect} from "react-router-dom";
+import {BrowserRouter as Router, Redirect, Route, Switch} from "react-router-dom";
 import Validation from "./screen/Validation";
 import Account from "./screen/Account";
 import BankManager from "./screen/BankManager";
 import RemoveAccount from "./screen/RemoveAccount";
 
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
+import {listenAccount} from "./functions/firebaseFuntion";
 
 const mainTheme = createMuiTheme({
   palette: {
@@ -23,22 +24,28 @@ const mainTheme = createMuiTheme({
 
 function App() {
   const [account, setAccount] = useState(null);
+
+  let onSign = (uid) => {
+    listenAccount(uid, setAccount)
+  };
+
   return (
     <ThemeProvider theme={mainTheme}>
       <Router>
         <Switch>
           <Route path="/signin">
-            <SignIn onSign={setAccount}/>
+            <SignIn onSign={onSign}/>
           </Route>
           <Route path="/signup">
-            <SignUp account={account} onSign={setAccount}/>
+            <SignUp account={account} onSign={onSign}/>
           </Route>
           <Route path="/close">
-            <RemoveAccount account={account} onSign={setAccount}/>
+            <RemoveAccount account={account}/>
           </Route>
           <PrivateRoute path="/" account={account}>
             {
-              account && account.role === "banker" ? <BankManager/> : account && account.role === "verified_account" ? <Account/> : <Validation account={account}/>
+              account && account.role === "banker" ? <BankManager/> : account && account.role === "verified_account" ?
+                <Account/> : <Validation account={account}/>
             }
           </PrivateRoute>
         </Switch>
@@ -47,18 +54,18 @@ function App() {
   );
 }
 
-function PrivateRoute({ children, account, ...rest }) {
+function PrivateRoute({children, account, ...rest}) {
   return (
     <Route
       {...rest}
-      render={({ location }) =>
+      render={({location}) =>
         account ? (
           children
         ) : (
           <Redirect
             to={{
               pathname: "/signin",
-              state: { from: location }
+              state: {from: location}
             }}
           />
         )

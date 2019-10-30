@@ -50,7 +50,7 @@ export default function NavigationBar({account}) {
           Bankorama
         </Typography>
         <div>
-         Todo {account.displayName}
+          {account.firstName} {account.name}
           <IconButton
             aria-label="account of current user"
             aria-controls="menu-appbar"

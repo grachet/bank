@@ -1,10 +1,10 @@
 import React from 'react';
 
-function Account() {
+function RemoveAccount() {
 
   return (
     <div>close account</div>
   );
 }
 
-export default Account;
+export default RemoveAccount;
