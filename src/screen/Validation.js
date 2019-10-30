@@ -6,7 +6,7 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import ValidationForm from "../components/ValidationForm";
+import ValidationForm from "../components/validation/ValidationForm";
 import NavigationBar from "../components/NavigationBar";
 import {writeAccount} from "../functions/firebaseFuntion";
 import {getIdCard, getIdCardUrl, putIdCard} from "../functions/fileFunctions";

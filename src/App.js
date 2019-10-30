@@ -23,7 +23,7 @@ const mainTheme = createMuiTheme({
 });
 
 function App() {
-  const [account, setAccount] = useState(null);
+  const [account, setAccount] = useState({isVerified:true, firstName: "test", name: "todo"});
 
   let onSign = (uid) => {
     listenAccount(uid, setAccount)
@@ -45,7 +45,7 @@ function App() {
           <PrivateRoute path="/" account={account}>
             {
               account && !account.isVerified ? <Validation account={account}/> : account && account.isBankManager ? <BankManager/> :
-                <Account/>
+                <Account account={account}/>
             }
           </PrivateRoute>
         </Switch>

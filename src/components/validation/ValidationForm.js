@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import React from 'react'
-import Dropzone from "./DropZone"
+import Dropzone from "../DropZone"
 
 
 export default function ValidationForm({isBankManager, setIsBankManager, setIdCard, idCard}) {

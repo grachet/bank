@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function NavigationBar({account}) {
+export default function NavigationBar({account, position, appBarClasses}) {
   const classes = useStyles();
   let history = useHistory();
   const [openMenu, setOpenMenu] = useState(false);
@@ -38,7 +38,7 @@ export default function NavigationBar({account}) {
   //       </AppBar>
 
   return (
-    <AppBar position="static">
+    <AppBar position={position || "static"}>
       <Toolbar>
         <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
           <BankIcon/>

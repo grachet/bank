@@ -22,7 +22,8 @@ export const signInAccount = (email, password, callback, errorCallback) => {
 
 export const createAccount = (email, password, info, callback, errorCallback) => {
   authRef.createUserWithEmailAndPassword(email, password).then(user => {
-    let account = {email, ...info, id: user.user.uid};
+    let RIB = "FR" + getRandomNumberString(10) + getRandomString(11) + getRandomNumberString(2);
+    let account = {email, ...info, id: user.user.uid, RIB};
     writeAccount(account, account.id);
     callback(account.id);
   }).catch(function (error) {
@@ -33,6 +34,25 @@ export const createAccount = (email, password, info, callback, errorCallback) =>
   });
 };
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
 
+export function getRandomNumberString(length) {
+  let nb = "";
+  for (let i = 0; i < length; i++) {
+    nb += getRandomInt(10)
+  }
+  return nb
+}
+
+export  function getRandomString(length) {
+  let values = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789012345678901234567890123456789012345678901234567892345678901234567890123456789";
+  let nb = "";
+  for (let i = 0; i < length; i++) {
+    nb += values[getRandomInt(values.length - 1)]
+  }
+  return nb
+}
 
 
