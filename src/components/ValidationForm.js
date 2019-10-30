@@ -10,11 +10,11 @@ export default function ValidationForm({isBankManager, setIsBankManager, setIdCa
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
-        Id Card
+        Id Card (.pdf)
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Dropzone onDropFile={setIdCard}/>
+          <Dropzone onDropFile={setIdCard} file={idCard}/>
         </Grid>
         <Grid item xs={12}>
           <FormControlLabel

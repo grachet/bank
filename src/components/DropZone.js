@@ -10,17 +10,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Dropzone({onDropFile}) {
+export default function Dropzone({onDropFile, file}) {
 
   const classes = useStyles();
-  const [file, setFile] = useState(null);
-
   const onDrop = useCallback(acceptedFiles => {
-    console.log("acceptedFiles", acceptedFiles);
-    setFile(acceptedFiles[0]);
     onDropFile(acceptedFiles[0]);
   }, []);
-  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+
+  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
 
   return (
 [    <div className={classes.dropZone} {...getRootProps()}>

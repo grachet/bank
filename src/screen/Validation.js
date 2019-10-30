@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Stepper from '@material-ui/core/Stepper';
@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import ValidationForm from "../components/ValidationForm";
 import NavigationBar from "../components/NavigationBar";
 import {writeAccount} from "../functions/firebaseFuntion";
-import {putIdCard} from "../functions/fileFunctions";
+import {getIdCard, getIdCardUrl, putIdCard} from "../functions/fileFunctions";
 
 const useStyles = makeStyles(theme => ({
   layout: {
@@ -54,13 +54,15 @@ export default function Validation({account}) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(account.idCard ? 1 : 0);
   const [isBankManager, setIsBankManager] = React.useState(account.isBankManager);
-  const [idCard, setIdCard] = React.useState(account.idCard);
+  const [idCard, setIdCard] = React.useState(null);
+
+  useEffect(() => {
+    getIdCard(account.id, setIdCard)
+  }, []);
 
   const handleValidate = () => {
     setActiveStep(activeStep + 1);
-    let ext = idCard.name.split(".");
-    ext = ext[ext.length - 1];
-    putIdCard(idCard, account.id + "." + ext);
+    putIdCard(idCard, account.id + ".pdf");
     writeAccount({...account, isBankManager}, account.id)
   };
 
@@ -105,7 +107,7 @@ export default function Validation({account}) {
                 onClick={handleValidate}
                 className={classes.button}
               >
-                Validate
+                Upload
               </Button>}
           </div>
         </Paper>
