@@ -44,7 +44,7 @@ function App() {
           </Route>
           <PrivateRoute path="/" account={account}>
             {
-              account && !account.isVerified ? <Validation account={account}/> : account && account.isBankManager ? <BankManager/> :
+              account && !account.isVerified ? <Validation account={account}/> : account && account.isBankManager ? <BankManager account={account}/> :
                 <Account account={account}/>
             }
           </PrivateRoute>

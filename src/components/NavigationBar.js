@@ -46,6 +46,9 @@ export default function NavigationBar({account, position, appBarClasses}) {
         <Typography variant="h6" className={classes.title}>
           Bankorama
         </Typography>
+        {account.isBankManager &&<Typography variant="h6" className={classes.title}>
+         Bank Manager
+        </Typography>}
         <div>
           {account.firstName} {account.name}
           <IconButton
