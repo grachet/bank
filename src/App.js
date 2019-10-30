@@ -44,8 +44,8 @@ function App() {
           </Route>
           <PrivateRoute path="/" account={account}>
             {
-              account && account.role === "banker" ? <BankManager/> : account && account.role === "verified_account" ?
-                <Account/> : <Validation account={account}/>
+              account && !account.isVerified ? <Validation account={account}/> : account && account.isBankManager ? <BankManager/> :
+                <Account/>
             }
           </PrivateRoute>
         </Switch>

@@ -9,7 +9,7 @@ import {makeStyles} from "@material-ui/core";
 const useStyles = makeStyles(theme => ({
   dropZone: {
     backgroundColor: "rgb(235,235,235)",
-    padding : 20,
+    padding: 20,
     borderRadius: 10
   },
 }));
@@ -35,7 +35,7 @@ function MyDropzone() {
   )
 }
 
-export default function ValidationForm() {
+export default function ValidationForm({isBankManager, setIsBankManager, setIdCard, idCard}) {
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -47,7 +47,11 @@ export default function ValidationForm() {
         </Grid>
         <Grid item xs={12}>
           <FormControlLabel
-            control={<Checkbox color="secondary" name="saveAddress" value="yes"/>}
+            control={
+              <Checkbox color="secondary"
+                        checked={isBankManager}
+                        onChange={(e) => setIsBankManager(e.target.checked)}
+              />}
             label="I want a bankster account"
           />
         </Grid>

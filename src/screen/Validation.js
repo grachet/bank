@@ -1,7 +1,5 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Paper from '@material-ui/core/Paper';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -10,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ValidationForm from "../components/ValidationForm";
 import NavigationBar from "../components/NavigationBar";
+import {writeAccount} from "../functions/firebaseFuntion";
 
 const useStyles = makeStyles(theme => ({
   layout: {
@@ -24,8 +23,8 @@ const useStyles = makeStyles(theme => ({
   },
   imgInterview: {
     width: "80%",
-    maxWidth : 150,
-    margin : 20
+    maxWidth: 150,
+    margin: 20
   },
   paper: {
     marginTop: theme.spacing(3),
@@ -52,10 +51,13 @@ const useStyles = makeStyles(theme => ({
 
 export default function Validation({account}) {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = React.useState(account.idCard ? 1 : 0);
+  const [isBankManager, setIsBankManager] = React.useState(account.isBankManager);
+  const [idCard, setIdCard] = React.useState(account.idCard);
 
   const handleValidate = () => {
     setActiveStep(activeStep + 1);
+    writeAccount({...account, idCard, isBankManager}, account.id)
   };
 
   const handleBack = () => {
@@ -79,11 +81,12 @@ export default function Validation({account}) {
             </Step>
           </Stepper>
           {activeStep === 0 ?
-            <ValidationForm/> :
+            <ValidationForm isBankManager={isBankManager} setIsBankManager={setIsBankManager} setIdCard={setIdCard}
+                            idCard={idCard}/> :
             <div>Our bankster should validate your account soon
-              <div style={{textAlign:"center"}}>
-              <img src={process.env.PUBLIC_URL + "/interview.svg"} className={classes.imgInterview} alt=""/>
-            </div>
+              <div style={{textAlign: "center"}}>
+                <img src={process.env.PUBLIC_URL + "/interview.svg"} className={classes.imgInterview} alt=""/>
+              </div>
             </div>
           }
           <div className={classes.buttons}>
