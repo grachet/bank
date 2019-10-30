@@ -10,6 +10,7 @@ import ValidationForm from "../components/ValidationForm";
 import NavigationBar from "../components/NavigationBar";
 import {writeAccount} from "../functions/firebaseFuntion";
 import {getIdCard, getIdCardUrl, putIdCard} from "../functions/fileFunctions";
+import {Link} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   layout: {
@@ -89,7 +90,8 @@ export default function Validation({account}) {
           {activeStep === 0 ?
             <ValidationForm isBankManager={isBankManager} setIsBankManager={setIsBankManager} setIdCard={setIdCard}
                             idCard={idCard}/> :
-            <div>Our bankster should validate your account soon
+            <div>Our bankster should validate your account soon <br/><br/>
+              {idCard && <Link href={window.URL.createObjectURL(idCard)} download={"idCard.pdf"} target={"_blank"}>{idCard.name}</Link>}
               <div style={{textAlign: "center"}}>
                 <img src={process.env.PUBLIC_URL + "/interview.svg"} className={classes.imgInterview} alt=""/>
               </div>

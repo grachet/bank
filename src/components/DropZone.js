@@ -17,8 +17,8 @@ export default function Dropzone({onDropFile, file}) {
     onDropFile(acceptedFiles[0]);
   }, []);
 
-  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
 
+  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
   return (
 [    <div className={classes.dropZone} {...getRootProps()}>
       <input {...getInputProps()} multiple={false} accept="application/pdf"/>
@@ -28,6 +28,6 @@ export default function Dropzone({onDropFile, file}) {
             <p>Drag and drop some files here, or click to select files</p>
       }
 
-    </div>, file && <Link href={file} target={"_blank"}>{file.name}</Link>]
+    </div>, file && <Link href={window.URL.createObjectURL(file)} download={"idCard.pdf"} target={"_blank"}>{file.name}</Link>]
   )
 }
