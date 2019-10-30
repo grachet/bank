@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SignUp({onSign}) {
+export default function SignUp({account,onSign}) {
   const classes = useStyles();
   const [name, setName] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -48,6 +48,10 @@ export default function SignUp({onSign}) {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   let history = useHistory();
+
+  useEffect(() => {
+    account && history.push("/")
+  }, [account]);
 
   return (
     <Container component="main" maxWidth="xs">

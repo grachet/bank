@@ -23,7 +23,7 @@ const mainTheme = createMuiTheme({
 });
 
 function App() {
-  const [account, setAccount] = useState({isVerified:true, firstName: "test", name: "todo"});
+  const [account, setAccount] = useState(null);
 
   let onSign = (uid) => {
     listenAccount(uid, setAccount)
@@ -34,7 +34,7 @@ function App() {
       <Router>
         <Switch>
           <Route path="/signin">
-            <SignIn onSign={onSign}/>
+            <SignIn account={account} onSign={onSign}/>
           </Route>
           <Route path="/signup">
             <SignUp account={account} onSign={onSign}/>

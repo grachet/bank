@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,6 +14,7 @@ import {Link as RouterLink, useHistory} from "react-router-dom";
 import Copyright from "../components/Copyright"
 import {signInAccount} from "../functions/accountFunctions";
 import {FormHelperText} from "@material-ui/core";
+import {getIdCard} from "../functions/fileFunctions";
 
 
 const useStyles = makeStyles(theme => ({
@@ -45,12 +46,16 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SignIn({onSign}) {
+export default function SignIn({account,onSign}) {
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   let history = useHistory();
+
+  useEffect(() => {
+    account && history.push("/")
+  }, [account]);
 
   return (
     <Grid container component="main" className={classes.root}>
