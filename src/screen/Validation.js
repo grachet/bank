@@ -58,8 +58,9 @@ export default function Validation({account}) {
 
   const handleValidate = () => {
     setActiveStep(activeStep + 1);
-    let file =  new Uint8Array([0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x2c, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21])
-    putIdCard(file,account.id);
+    let ext = idCard.name.split(".");
+    ext = ext[ext.length - 1];
+    putIdCard(idCard, account.id + "." + ext);
     writeAccount({...account, isBankManager}, account.id)
   };
 

@@ -28,10 +28,7 @@ export default function NavigationBar({account}) {
   const classes = useStyles();
   let history = useHistory();
   const [openMenu, setOpenMenu] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
 
-  console.log("account", account);
-  
   // <AppBar position="absolute" color="default" className={classes.appBar}>
   //         <Toolbar>
   //           <Typography variant="h6" color="inherit" noWrap>
