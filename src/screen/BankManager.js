@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {Container, Grid, Paper} from '@material-ui/core';
+import {Container, Grid} from '@material-ui/core';
 import NavigationBar from "../components/NavigationBar";
 import Copyright from "../components/Copyright"
 import MaterialTable from "material-table";
+import {deleteAccount, listenAllAccounts, writeAccount} from "../functions/firebaseFuntion";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,7 +36,24 @@ const useStyles = makeStyles(theme => ({
 
 
 export default function BankManager({account}) {
+
+  const [allAccounts, setAllAccounts] = React.useState({});
+
+  useEffect(() => {
+    listenAllAccounts(setAllAccounts)
+  }, []);
+
   const classes = useStyles();
+
+  let accountsToRemove = [];
+  let accountsToValidate = [];
+
+  Object.values(allAccounts).forEach(val => {
+    val.toRemove && accountsToRemove.push(val);
+    !val.isVerified && accountsToValidate.push(val);
+  });
+
+  console.log("allAccounts", allAccounts);
 
   return (
     <div className={classes.root}>
@@ -45,40 +63,78 @@ export default function BankManager({account}) {
         <Container maxWidth="md" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <MaterialTable
-                  localization={{
-                    actions: null,
-                    emptyDataSourceMessage: "No account need validation",
-                  }}
-                  options={{
-                    columnsButton: true,
-                    pageSize: 5,
-                    pageSizeOptions: [5, 6, 10, 20, 40, 80]
-                  }}
-                  columns={[
-                    {title: 'Root Course Number', field: 'rootCourseNumber'},
-                    {title: 'Product', field: 'productName'},
-                    {title: 'Release', field: 'productRRRR'},
-                    {title: 'Delivery Format', field: 'deliveryFormat'},
-                    {title: 'Status', field: 'statusProject', hidden: true},
-                    {title: 'Owner', field: 'owner', hidden: true},
-                    {
-                      title: 'Last Update', field: 'lastModificationTimestamp', hidden: true, render: rowData => {
-                        return formatDistance(toTimestamp(rowData.lastModificationTimestamp), new Date()) + " ago"
-                      }
-                    },
-                    {
-                      title: 'Creation', field: 'creationTimestamp', hidden: true, render: rowData => {
-                        return formatDistance(toTimestamp(rowData.creationTimestamp), new Date()) + " ago"
-                      }
-                    },
-                  ]}
-                  actions={actions}
-                  data={}
-                  title="Account Validation"
-                />
-              </Paper>
+              <MaterialTable
+                localization={{
+                  actions: null,
+                  emptyDataSourceMessage: "No account need validation",
+                }}
+                options={{
+                  search: false,
+                  pageSize: 5,
+                  pageSizeOptions: [5, 10]
+                }}
+                actions={[
+                  {
+                    icon: 'check',
+                    tooltip: 'Validate account',
+                    onClick: (event, {id}) => {
+                      writeAccount({...allAccounts[id], isVerified: true}, id)
+                    }
+                  }
+                ]}
+                columns={[
+                  {title: 'Email', field: 'email'},
+                  {
+                    title: 'Name', field: 'id', render: rowData => {
+                      return rowData.name + " " + rowData.firstName
+                    }
+                  },
+                  {
+                    title: 'Id Card', field: 'id', render: rowData => {
+                      return rowData.id
+                    }
+                  },
+                ]}
+                data={accountsToValidate}
+                title="Account Validation"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <MaterialTable
+                localization={{
+                  actions: null,
+                  emptyDataSourceMessage: "No account need to be removed",
+                }}
+                options={{
+                  search: false,
+                  pageSize: 5,
+                  pageSizeOptions: [5, 10]
+                }}
+                columns={[
+                  {title: 'Email', field: 'email'},
+                  {
+                    title: 'Name', field: 'id', render: rowData => {
+                      return rowData.name + " " + rowData.firstName
+                    }
+                  },
+                  {
+                    title: 'Signature', field: 'id', render: rowData => {
+                      return rowData.id
+                    }
+                  },
+                ]}
+                actions={[
+                  {
+                    icon: 'delete',
+                    tooltip: 'Remove account',
+                    onClick: (event, {id}) => {
+                      deleteAccount(id)
+                    }
+                  }
+                ]}
+                data={accountsToRemove}
+                title="Account To Remove"
+              />
             </Grid>
           </Grid>
         </Container>

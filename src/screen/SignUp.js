@@ -12,7 +12,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import {Link as RouterLink, useHistory} from "react-router-dom";
 import Container from '@material-ui/core/Container';
 import Copyright from "../components/Copyright"
-import {createAccount} from "../functions/accountFunctions";
+import {createAccount} from "../functions/authFunctions";
 import {FormHelperText} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
