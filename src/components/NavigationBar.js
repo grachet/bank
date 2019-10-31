@@ -8,6 +8,7 @@ import BankIcon from '@material-ui/icons/AccountBalance';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import {Menu, MenuItem} from "@material-ui/core";
 import {useHistory} from "react-router-dom";
+import {signOut} from "../functions/authFunctions";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -24,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function NavigationBar({account, position, appBarClasses}) {
+export default function NavigationBar({account, position, setAccount}) {
   const classes = useStyles();
   let history = useHistory();
   const [openMenu, setOpenMenu] = useState(false);
@@ -75,7 +76,8 @@ export default function NavigationBar({account, position, appBarClasses}) {
             open={openMenu}
             onClose={() => setOpenMenu(false)}
           >
-            <MenuItem onClick={() => history.push("/close")}>Close account</MenuItem>
+            <MenuItem onClick={() => history.push("/delete")}>Delete account</MenuItem>
+            <MenuItem onClick={() => signOut(account.id,setAccount)}>Sign out</MenuItem>
           </Menu>
         </div>
       </Toolbar>

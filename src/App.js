@@ -34,18 +34,18 @@ function App() {
       <Router>
         <Switch>
           <Route path="/signin">
-            <SignIn account={account} onSign={onSign}/>
+            <SignIn account={account} onSign={onSign} />
           </Route>
           <Route path="/signup">
             <SignUp account={account} onSign={onSign}/>
           </Route>
-          <Route path="/close">
+          <Route path="/delete">
             <RemoveAccount account={account}/>
           </Route>
           <PrivateRoute path="/" account={account}>
             {
-              account && !account.isVerified ? <Validation account={account}/> : account && account.isBankManager ? <BankManager account={account}/> :
-                <Account account={account}/>
+              account && !account.isVerified ? <Validation setAccount={setAccount} account={account}/> : account && account.isBankManager ? <BankManager setAccount={setAccount} account={account}/> :
+                <Account setAccount={setAccount} account={account}/>
             }
           </PrivateRoute>
         </Switch>

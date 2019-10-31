@@ -3,12 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="f945f75b-0a91-4995-bfeb-42da66209416" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/account/Deposits.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/account/Deposits.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/functions/accountFunctions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/functions/authFunctions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/functions/firebaseFuntion.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/functions/firebaseFuntion.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/NavigationBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavigationBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/functions/authFunctions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/functions/authFunctions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screen/Account.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screen/Account.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screen/BankManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screen/BankManager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screen/SignIn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screen/SignIn.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screen/SignUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screen/SignUp.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screen/RemoveAccount.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screen/RemoveAccount.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screen/Validation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screen/Validation.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -78,7 +79,7 @@
       <workItem from="1572255490158" duration="8993000" />
       <workItem from="1572426767789" duration="19460000" />
       <workItem from="1572517922059" duration="72000" />
-      <workItem from="1572526556952" duration="5599000" />
+      <workItem from="1572526556952" duration="8103000" />
     </task>
     <servers />
   </component>

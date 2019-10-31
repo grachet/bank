@@ -1,9 +1,9 @@
 import React from 'react';
 
-function RemoveAccount() {
+function RemoveAccount(setAccount) {
 
   return (
-    <div>close account</div>
+    <div>Delete account</div>
   );
 }
 

@@ -1,11 +1,14 @@
-import {authRef} from "../config/firebase"
+import {authRef, database} from "../config/firebase"
 import {writeAccount} from "./firebaseFuntion";
 
-export const signOut = () => {
+export const signOut = (uid,setAccount) => {
   authRef.signOut().then(function () {
-    // Sign-out successful.
+    console.log("sign out");
+    database.ref("accounts/" + uid).off();
+    database.ref("accounts").off();
+    setAccount(null)
   }).catch(function (error) {
-    // An error happened.
+    console.error(error)
   });
 };
 
@@ -46,7 +49,7 @@ export function getRandomNumberString(length) {
   return nb
 }
 
-export  function getRandomString(length) {
+export function getRandomString(length) {
   let values = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789012345678901234567890123456789012345678901234567892345678901234567890123456789";
   let nb = "";
   for (let i = 0; i < length; i++) {

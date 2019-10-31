@@ -5,6 +5,7 @@ import NavigationBar from "../components/NavigationBar";
 import Copyright from "../components/Copyright"
 import MaterialTable from "material-table";
 import {deleteAccount, listenAllAccounts, writeAccount} from "../functions/firebaseFuntion";
+import {getIdCardUrl} from "../functions/fileFunctions";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,7 +36,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function BankManager({account}) {
+export default function BankManager({account,setAccount}) {
 
   const [allAccounts, setAllAccounts] = React.useState({});
 
@@ -49,15 +50,19 @@ export default function BankManager({account}) {
   let accountsToValidate = [];
 
   Object.values(allAccounts).forEach(val => {
-    val.toRemove && accountsToRemove.push(val);
-    !val.isVerified && accountsToValidate.push(val);
+    if (val.toRemove) {
+      accountsToRemove.push(val);
+      // getIdCardUrl(val.id, urlIdCard => setAllAccounts(state => ({...state, [val.id]: {...val, urlIdCard}})))
+    } else if (!val.isVerified) {
+      accountsToValidate.push(val);
+    }
   });
 
   console.log("allAccounts", allAccounts);
 
   return (
     <div className={classes.root}>
-      <NavigationBar position="absolute" account={account}/>
+      <NavigationBar position="absolute" account={account}  setAccount={setAccount}/>
       <main className={classes.content}>
         <div className={classes.appBarSpacer}/>
         <Container maxWidth="md" className={classes.container}>
@@ -90,8 +95,8 @@ export default function BankManager({account}) {
                     }
                   },
                   {
-                    title: 'Id Card', field: 'id', render: rowData => {
-                      return rowData.id
+                    title: 'Id Card.pdf', render: rowData => {
+                      return rowData.urlIdCard
                     }
                   },
                 ]}
@@ -118,7 +123,7 @@ export default function BankManager({account}) {
                     }
                   },
                   {
-                    title: 'Signature', field: 'id', render: rowData => {
+                    title: 'Signature.pdf', field: 'id', render: rowData => {
                       return rowData.id
                     }
                   },

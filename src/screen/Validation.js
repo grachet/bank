@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Validation({account}) {
+export default function Validation({account,setAccount}) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(account.idCard ? 1 : 0);
   const [isBankManager, setIsBankManager] = React.useState(account.isBankManager);
@@ -64,7 +64,7 @@ export default function Validation({account}) {
   const handleValidate = () => {
     setActiveStep(activeStep + 1);
     putIdCard(idCard, account.id + ".pdf");
-    writeAccount({...account, isBankManager}, account.id)
+    writeAccount({...account, isBankManager : !isBankManager}, account.id)
   };
 
   const handleBack = () => {
@@ -73,7 +73,7 @@ export default function Validation({account}) {
 
   return (
     <React.Fragment>
-      <NavigationBar account={account}/>
+      <NavigationBar account={account} setAccount={setAccount}/>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">

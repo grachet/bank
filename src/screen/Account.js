@@ -36,14 +36,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Account({account}) {
+export default function Account({account, setAccount}) {
   const classes = useStyles();
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
-      <NavigationBar position="absolute" account={account}/>
+      <NavigationBar position="absolute" account={account}  setAccount={setAccount}/>
       <main className={classes.content}>
         <div className={classes.appBarSpacer}/>
         <Container maxWidth="md" className={classes.container}>
