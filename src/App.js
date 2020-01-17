@@ -43,7 +43,10 @@ function App() {
             <RemoveAccount account={account}/>
           </Route>
           <PrivateRoute path="/" account={account}>
-          <Account setAccount={setAccount} account={account}/>
+            {
+              account && !account.isVerified ? <Validation setAccount={setAccount} account={account}/> : account && account.isBankManager ? <BankManager setAccount={setAccount} account={account}/> :
+                <Account setAccount={setAccount} account={account}/>
+            }
           </PrivateRoute>
         </Switch>
       </Router>
