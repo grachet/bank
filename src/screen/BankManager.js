@@ -1,13 +1,17 @@
-import React, {useEffect} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import {Container, Grid} from '@material-ui/core';
+import React, { useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { Container, Grid, IconButton, CircularProgress } from '@material-ui/core';
 import NavigationBar from "../components/NavigationBar";
 import Copyright from "../components/Copyright"
 import MaterialTable from "material-table";
-import {deleteAccount, listenAllAccounts, writeAccount} from "../functions/firebaseFuntion";
-import {getIdCardUrl} from "../functions/fileFunctions";
+import { deleteAccount, listenAllAccounts, writeAccount } from "../functions/firebaseFuntion";
+import { storage } from "../config/firebase";
+import DownloadIcon from "@material-ui/icons/AttachFile"
 
 const useStyles = makeStyles(theme => ({
+  circularProgressIconButton: {
+position: "absolute"
+  },
   root: {
     display: 'flex',
   },
@@ -36,9 +40,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function BankManager({account,setAccount}) {
+export default function BankManager({ account, setAccount }) {
 
   const [allAccounts, setAllAccounts] = React.useState({});
+  const [loadingIdCard, setLoadingIdCard] = React.useState({});
 
   useEffect(() => {
     listenAllAccounts(setAllAccounts)
@@ -62,9 +67,9 @@ export default function BankManager({account,setAccount}) {
 
   return (
     <div className={classes.root}>
-      <NavigationBar position="absolute" account={account}  setAccount={setAccount}/>
+      <NavigationBar position="absolute" account={account} setAccount={setAccount} />
       <main className={classes.content}>
-        <div className={classes.appBarSpacer}/>
+        <div className={classes.appBarSpacer} />
         <Container maxWidth="md" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -82,13 +87,13 @@ export default function BankManager({account,setAccount}) {
                   {
                     icon: 'check',
                     tooltip: 'Validate account',
-                    onClick: (event, {id}) => {
-                      writeAccount({...allAccounts[id], isVerified: true}, id)
+                    onClick: (event, { id }) => {
+                      writeAccount({ ...allAccounts[id], isVerified: true }, id)
                     }
                   }
                 ]}
                 columns={[
-                  {title: 'Email', field: 'email'},
+                  { title: 'Email', field: 'email' },
                   {
                     title: 'Name', field: 'id', render: rowData => {
                       return rowData.name + " " + rowData.firstName
@@ -96,7 +101,21 @@ export default function BankManager({account,setAccount}) {
                   },
                   {
                     title: 'Id Card.pdf', render: rowData => {
-                      return rowData.urlIdCard
+                      return <IconButton
+                        onClick={() => {
+                          setLoadingIdCard(lod => ({ ...lod, [rowData.id]: true }));
+                          storage.ref("idCard/" + rowData.id + ".pdf").getDownloadURL().then(url => {
+                            setLoadingIdCard(lod => ({ ...lod, [rowData.id]: false }));
+                            window.open(url)
+                          }).catch(err => {
+                            setLoadingIdCard(lod => ({ ...lod, [rowData.id]: false }));
+                            alert(JSON.stringify(err.message_))
+                          })
+                        }}
+                      >
+                        <DownloadIcon />
+                        {loadingIdCard[rowData.id] && <CircularProgress className={classes.circularProgressIconButton} />}
+                      </IconButton>
                     }
                   },
                 ]}
@@ -116,7 +135,7 @@ export default function BankManager({account,setAccount}) {
                   pageSizeOptions: [5, 10]
                 }}
                 columns={[
-                  {title: 'Email', field: 'email'},
+                  { title: 'Email', field: 'email' },
                   {
                     title: 'Name', field: 'id', render: rowData => {
                       return rowData.name + " " + rowData.firstName
@@ -132,7 +151,7 @@ export default function BankManager({account,setAccount}) {
                   {
                     icon: 'delete',
                     tooltip: 'Remove account',
-                    onClick: (event, {id}) => {
+                    onClick: (event, { id }) => {
                       deleteAccount(id)
                     }
                   }
@@ -143,7 +162,7 @@ export default function BankManager({account,setAccount}) {
             </Grid>
           </Grid>
         </Container>
-        <Copyright/>
+        <Copyright />
       </main>
     </div>
   );
