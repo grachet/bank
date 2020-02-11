@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -8,12 +8,12 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import {makeStyles} from '@material-ui/core/styles';
-import {Link as RouterLink, useHistory} from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+import { Link as RouterLink, useHistory } from "react-router-dom";
 import Container from '@material-ui/core/Container';
 import Copyright from "../components/Copyright"
-import {createAccount} from "../functions/authFunctions";
-import {FormHelperText} from "@material-ui/core";
+import { createAccount } from "../functions/authFunctions";
+import { FormHelperText } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SignUp({account,onSign}) {
+export default function SignUp({ account, onSign }) {
   const classes = useStyles();
   const [name, setName] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -51,14 +51,14 @@ export default function SignUp({account,onSign}) {
 
   useEffect(() => {
     account && history.push("/")
-  }, [account]);
+  }, [account, history]);
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline/>
+      <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon/>
+          <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Bankorama
@@ -67,7 +67,7 @@ export default function SignUp({account,onSign}) {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
-                error={errorMessage}
+                error={!!errorMessage}
                 autoComplete="fname"
                 name="firstName"
                 variant="outlined"
@@ -82,7 +82,7 @@ export default function SignUp({account,onSign}) {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                error={errorMessage}
+                error={!!errorMessage}
                 variant="outlined"
                 required
                 fullWidth
@@ -96,7 +96,7 @@ export default function SignUp({account,onSign}) {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                error={errorMessage}
+                error={!!errorMessage}
                 variant="outlined"
                 required
                 fullWidth
@@ -110,7 +110,7 @@ export default function SignUp({account,onSign}) {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                error={errorMessage}
+                error={!!errorMessage}
                 variant="outlined"
                 required
                 fullWidth
@@ -126,7 +126,7 @@ export default function SignUp({account,onSign}) {
           </Grid>
           <FormHelperText error>{errorMessage}</FormHelperText>
           <Button
-            onClick={() => createAccount(email, password, {name, firstName}, (acc) => {
+            onClick={() => createAccount(email, password, { name, firstName }, (acc) => {
               onSign(acc);
               history.push("/")
             }, setErrorMessage)}
@@ -139,17 +139,15 @@ export default function SignUp({account,onSign}) {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <RouterLink to="/signin">
-                <Link variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </RouterLink>
+              <Link variant="body2" onClick={() => history.push("/signin")}>
+                Already have an account? Sign in
+                  </Link>
             </Grid>
           </Grid>
         </form>
       </div>
       <Box mt={5}>
-        <Copyright/>
+        <Copyright />
       </Box>
     </Container>
   );

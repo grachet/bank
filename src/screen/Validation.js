@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
+import React, { useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -8,9 +8,9 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ValidationForm from "../components/validation/ValidationForm";
 import NavigationBar from "../components/NavigationBar";
-import {writeAccount} from "../functions/firebaseFuntion";
-import {getIdCard, getIdCardUrl, putIdCard} from "../functions/fileFunctions";
-import {Link} from "@material-ui/core";
+import { writeAccount } from "../functions/firebaseFuntion";
+import { getIdCard, putIdCard } from "../functions/fileFunctions";
+import { Link } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   layout: {
@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Validation({account,setAccount}) {
+export default function Validation({ account, setAccount, isRemoveAccount }) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(account.idCard ? 1 : 0);
   const [isBankManager, setIsBankManager] = React.useState(account.isBankManager);
@@ -64,7 +64,7 @@ export default function Validation({account,setAccount}) {
   const handleValidate = () => {
     setActiveStep(activeStep + 1);
     putIdCard(idCard, account.id + ".pdf");
-    writeAccount({...account, isBankManager : !isBankManager}, account.id)
+    writeAccount({ ...account, isBankManager: !isBankManager }, account.id)
   };
 
   const handleBack = () => {
@@ -73,11 +73,11 @@ export default function Validation({account,setAccount}) {
 
   return (
     <React.Fragment>
-      <NavigationBar account={account} setAccount={setAccount}/>
+      <NavigationBar account={account} setAccount={setAccount} />
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">
-            Validation
+            {isRemoveAccount ? "Remove account" : "Validation"}
           </Typography>
           <Stepper activeStep={activeStep} className={classes.stepper}>
             <Step key={"Send documents"}>
@@ -89,11 +89,11 @@ export default function Validation({account,setAccount}) {
           </Stepper>
           {activeStep === 0 ?
             <ValidationForm isBankManager={isBankManager} setIsBankManager={setIsBankManager} setIdCard={setIdCard}
-                            idCard={idCard}/> :
-            <div>Our bankster should validate your account soon <br/><br/>
+              idCard={idCard} /> :
+            <div>Our bank manager should validate your account soon <br /><br />
               {idCard && <Link href={window.URL.createObjectURL(idCard)} download={"idCard.pdf"} target={"_blank"}>{idCard.name}</Link>}
-              <div style={{textAlign: "center"}}>
-                <img src={process.env.PUBLIC_URL + "/interview.svg"} className={classes.imgInterview} alt=""/>
+              <div style={{ textAlign: "center" }}>
+                <img src={process.env.PUBLIC_URL + "/interview.svg"} className={classes.imgInterview} alt="" />
               </div>
             </div>
           }

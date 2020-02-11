@@ -6,7 +6,7 @@ import React from 'react'
 import Dropzone from "../DropZone"
 
 
-export default function ValidationForm({isBankManager, setIsBankManager, setIdCard, idCard}) {
+export default function ValidationForm({ isBankManager, setIsBankManager, setIdCard, idCard }) {
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -14,16 +14,16 @@ export default function ValidationForm({isBankManager, setIsBankManager, setIdCa
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Dropzone onDropFile={setIdCard} file={idCard}/>
+          <Dropzone onDropFile={setIdCard} file={idCard} />
         </Grid>
         <Grid item xs={12}>
           <FormControlLabel
             control={
               <Checkbox color="secondary"
-                        checked={isBankManager}
-                        onChange={(e) => setIsBankManager(e.target.checked)}
+                checked={isBankManager}
+                onChange={(e) => setIsBankManager(e.target.checked)}
               />}
-            label="I want a bankster account"
+            label="I want a bank manager account"
           />
         </Grid>
       </Grid>

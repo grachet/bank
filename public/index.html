@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="logo192.png" />
-    <!--
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Web site created using create-react-app" />
+  <link rel="apple-touch-icon" href="logo192.png" />
+  <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <!--
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -26,12 +24,62 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>Bank</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
+  <title>Bank</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+    #loader {
+      margin: auto;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+    }
+
+    #loaderContainer {
+      height: 100%;
+      width: 100%;
+      background-color: #3BD0D6;
+      z-index: 100000;
+      position: fixed;
+      opacity: 1;
+      pointer-events: none;
+      -webkit-transition: opacity cubic-bezier(.4, 0, .2, 1) 436ms;
+      -moz-transition: opacity cubic-bezier(.4, 0, .2, 1) 436ms;
+      transition: opacity cubic-bezier(.4, 0, .2, 1) 436ms;
+    }
+
+    #loaderContainer.available {
+      opacity: 0;
+    }
+  </style>
+  <div id="loaderContainer">
+    <!--      <img width="200px"  id="loader" src="./img/nokia_logo.png"/>-->
+    <svg id="loader" width="680" height="150" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+      <g class="layer">
+        <title>Layer 1</title>
+        <text font-weight="normal" stroke="#000000"
+          transform="matrix(5.548468498371602,0,0,5.900552160632488,-602.1297812211905,-1297.7731815029192) "
+          xml:space="preserve" text-anchor="middle" font-family="Fantasy" font-size="24" id="svg_1" y="241.35581"
+          x="166.07755" stroke-width="0" fill="#ffffff">Bankorama</text>
+        <circle id="svg_3" r="11.31371" cy="115.76389" cx="649.77778" stroke-linecap="null" stroke-linejoin="null"
+          stroke-dasharray="null" stroke-width="0" stroke="#000000" fill="#ffffff" />
+      </g>
+    </svg>
+  </div>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -41,5 +89,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+</body>
+
 </html>

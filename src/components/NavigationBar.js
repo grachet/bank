@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
+import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import BankIcon from '@material-ui/icons/AccountBalance';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import {Menu, MenuItem} from "@material-ui/core";
-import {useHistory} from "react-router-dom";
-import {signOut} from "../functions/authFunctions";
+import { Menu, MenuItem } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
+import { signOut } from "../functions/authFunctions";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function NavigationBar({account, position, setAccount}) {
+export default function NavigationBar({ account, position, setAccount }) {
   const classes = useStyles();
   let history = useHistory();
   const [openMenu, setOpenMenu] = useState(false);
@@ -42,13 +42,13 @@ export default function NavigationBar({account, position, setAccount}) {
     <AppBar position={position || "static"}>
       <Toolbar>
         <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-          <BankIcon/>
+          <BankIcon />
         </IconButton>
         <Typography variant="h6" className={classes.title}>
           Bankorama
         </Typography>
-        {account.isBankManager &&<Typography variant="h6" className={classes.title}>
-         Bank Manager
+        {account.isBankManager && <Typography variant="h6" className={classes.title}>
+          Bank Manager
         </Typography>}
         <div>
           {account.firstName} {account.name}
@@ -59,7 +59,7 @@ export default function NavigationBar({account, position, setAccount}) {
             onClick={(e) => setOpenMenu(e.currentTarget)}
             color="inherit"
           >
-            <AccountCircle/>
+            <AccountCircle />
           </IconButton>
           <Menu
             id="menu-appbar"
@@ -77,7 +77,7 @@ export default function NavigationBar({account, position, setAccount}) {
             onClose={() => setOpenMenu(false)}
           >
             <MenuItem onClick={() => history.push("/delete")}>Delete account</MenuItem>
-            <MenuItem onClick={() => signOut(account.id,setAccount)}>Sign out</MenuItem>
+            <MenuItem onClick={() => signOut(account.id, setAccount)}>Sign out</MenuItem>
           </Menu>
         </div>
       </Toolbar>
