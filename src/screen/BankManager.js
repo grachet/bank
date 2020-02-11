@@ -7,10 +7,11 @@ import MaterialTable from "material-table";
 import { deleteAccount, listenAllAccounts, writeAccount } from "../functions/firebaseFuntion";
 import { storage } from "../config/firebase";
 import DownloadIcon from "@material-ui/icons/AttachFile"
+import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles(theme => ({
   circularProgressIconButton: {
-position: "absolute"
+    position: "absolute"
   },
   root: {
     display: 'flex',
@@ -44,6 +45,7 @@ export default function BankManager({ account, setAccount }) {
 
   const [allAccounts, setAllAccounts] = React.useState({});
   const [loadingIdCard, setLoadingIdCard] = React.useState({});
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     listenAllAccounts(setAllAccounts)
@@ -109,7 +111,9 @@ export default function BankManager({ account, setAccount }) {
                             window.open(url)
                           }).catch(err => {
                             setLoadingIdCard(lod => ({ ...lod, [rowData.id]: false }));
-                            alert(JSON.stringify(err.message_))
+                            enqueueSnackbar(err.message_, {
+                              variant: 'warning',
+                            });
                           })
                         }}
                       >

@@ -7,6 +7,7 @@
     "@material-ui/icons": "^4.5.1",
     "firebase": "^7.2.1",
     "material-table": "^1.53.0",
+    "notistack": "^0.9.7",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-dropzone": "^10.1.10",
