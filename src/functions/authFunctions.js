@@ -12,6 +12,7 @@ export const signOut = (uid, setAccount) => {
   });
 };
 
+
 export const fetchUser = (callback) => {
   authRef.onAuthStateChanged(user => {
     callback && callback(user);

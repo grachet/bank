@@ -20,6 +20,7 @@ export async function getFileUrl(path) {
     return await storage.ref(path).getDownloadURL();
   } catch (e) {
     console.error(e)
+    return null
   }
 };
 

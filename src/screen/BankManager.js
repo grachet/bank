@@ -45,6 +45,7 @@ export default function BankManager({ account, setAccount }) {
 
   const [allAccounts, setAllAccounts] = React.useState({});
   const [loadingIdCard, setLoadingIdCard] = React.useState({});
+  const [loadingSignature, setLoadingSignature] = React.useState({});
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
@@ -59,13 +60,10 @@ export default function BankManager({ account, setAccount }) {
   Object.values(allAccounts).forEach(val => {
     if (val.toRemove) {
       accountsToRemove.push(val);
-      // getIdCardUrl(val.id, urlIdCard => setAllAccounts(state => ({...state, [val.id]: {...val, urlIdCard}})))
     } else if (!val.isVerified) {
       accountsToValidate.push(val);
     }
   });
-
-  console.log("allAccounts", allAccounts);
 
   return (
     <div className={classes.root}>
@@ -146,10 +144,26 @@ export default function BankManager({ account, setAccount }) {
                     }
                   },
                   {
-                    title: 'Signature.pdf', field: 'id', render: rowData => {
-                      return rowData.id
+                    title: 'Signature.pdf', render: rowData => {
+                      return <IconButton
+                        onClick={() => {
+                          setLoadingSignature(lod => ({ ...lod, [rowData.id]: true }));
+                          storage.ref("signature/" + rowData.id + ".pdf").getDownloadURL().then(url => {
+                            setLoadingSignature(lod => ({ ...lod, [rowData.id]: false }));
+                            window.open(url)
+                          }).catch(err => {
+                            setLoadingSignature(lod => ({ ...lod, [rowData.id]: false }));
+                            enqueueSnackbar(err.message_, {
+                              variant: 'warning',
+                            });
+                          })
+                        }}
+                      >
+                        <DownloadIcon />
+                        {loadingSignature[rowData.id] && <CircularProgress className={classes.circularProgressIconButton} />}
+                      </IconButton>
                     }
-                  },
+                  }
                 ]}
                 actions={[
                   {

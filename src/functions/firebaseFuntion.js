@@ -9,12 +9,29 @@ export const writeAccount = (object, id) => {
   writeDatabase(object, "accounts/" + id)
 };
 
-export const deleteDatabaseObject = (path) => {
-  database.ref(path).remove().then(() => console.log("account removed " + path));
+export async function deleteDatabaseObject(path) {
+  try {
+    return await database.ref(path).remove();
+  } catch (e) {
+    console.error(e)
+    return e
+  }
 };
 
-export const deleteAccount = (id) => {
-  deleteDatabaseObject("accounts/" + id)
+export async function deleteAccount(id) {
+
+  deleteDatabaseObject("accounts/" + id);
+
+  // let user = admin.auth().getUser(id);
+
+  // console.log(id, user)
+
+  // user.delete().then(function() {
+  //   // User deleted.
+  // }).catch(function(error) {
+  //   // An error happened.
+  // });
+
 };
 
 export const listenAccount = (id, callback) => {

@@ -15,7 +15,7 @@ export default function Dropzone({ onDropFile, file }) {
   const classes = useStyles();
   const onDrop = useCallback(acceptedFiles => {
     onDropFile(acceptedFiles[0]);
-  }, []);
+  }, [onDropFile]);
 
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
