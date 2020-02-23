@@ -49,10 +49,10 @@ function App() {
 
   useEffect(() => {
     fetchUser((user) => {
-      listenAccount(user.uid, setAccount)
       if (!user) {
         removeLoader()
       } else {
+        listenAccount(user.uid, setAccount)
         notistackRef.current.enqueueSnackbar("Reconnected as " + user.email, {
           variant: "success",
         })

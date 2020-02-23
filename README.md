@@ -5,7 +5,7 @@ Launch project
 - npm i
 - npm start
 
-Website url : 
+Website url :  https://bank-c4f41.web.app/signin
 
 Publish in prod :
 - npm i -g firebase-tools
