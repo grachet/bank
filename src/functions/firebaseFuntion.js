@@ -18,21 +18,6 @@ export async function deleteDatabaseObject(path) {
   }
 };
 
-export async function deleteAccount(id) {
-
-  deleteDatabaseObject("accounts/" + id);
-
-  // let user = admin.auth().getUser(id);
-
-  // console.log(id, user)
-
-  // user.delete().then(function() {
-  //   // User deleted.
-  // }).catch(function(error) {
-  //   // An error happened.
-  // });
-
-};
 
 export const listenAccount = (id, callback) => {
   listenDatabase("accounts/" + id, callback)

@@ -4,10 +4,11 @@ import { Container, Grid, IconButton, CircularProgress } from '@material-ui/core
 import NavigationBar from "../components/NavigationBar";
 import Copyright from "../components/Copyright"
 import MaterialTable from "material-table";
-import { deleteAccount, listenAllAccounts, writeAccount } from "../functions/firebaseFuntion";
+import { listenAllAccounts, writeAccount } from "../functions/firebaseFuntion";
 import { storage } from "../config/firebase";
 import DownloadIcon from "@material-ui/icons/AttachFile"
 import { useSnackbar } from 'notistack';
+import { deleteAccount } from '../functions/authFunctions';
 
 const useStyles = makeStyles(theme => ({
   circularProgressIconButton: {

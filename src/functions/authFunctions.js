@@ -1,5 +1,5 @@
 import { authRef, database } from "../config/firebase"
-import { writeAccount } from "./firebaseFuntion";
+import { writeAccount, deleteDatabaseObject } from "./firebaseFuntion";
 
 export const signOut = (uid, setAccount) => {
   authRef.signOut().then(function () {
@@ -12,6 +12,14 @@ export const signOut = (uid, setAccount) => {
   });
 };
 
+export async function deleteAccount(id) {
+  try {
+    return await deleteDatabaseObject("accounts/" + id);
+  } catch (e) {
+    console.error(e)
+    return e
+  }
+};
 
 export const fetchUser = (callback) => {
   authRef.onAuthStateChanged(user => {
