@@ -88,7 +88,7 @@ export default function Validation({ account, setAccount, isRemoveAccount }) {
             </Step>
           </Stepper>
           {activeStep === 0 ?
-            <ValidationForm isBankManager={isBankManager} setIsBankManager={setIsBankManager} setIdCard={setIdCard}
+            <ValidationForm isRemoveAccount={isRemoveAccount} isBankManager={isBankManager} setIsBankManager={setIsBankManager} setIdCard={setIdCard}
               idCard={idCard} /> :
             <div>Our bank manager should validate your account soon <br /><br />
               {idCard && <Link href={window.URL.createObjectURL(idCard)} download={"idCard.pdf"} target={"_blank"}>{idCard.name}</Link>}

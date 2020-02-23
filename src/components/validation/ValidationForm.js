@@ -6,17 +6,17 @@ import React from 'react'
 import Dropzone from "../DropZone"
 
 
-export default function ValidationForm({ isBankManager, setIsBankManager, setIdCard, idCard }) {
+export default function ValidationForm({ isRemoveAccount, isBankManager, setIsBankManager, setIdCard, idCard }) {
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
-        Id Card (.pdf)
+        {isRemoveAccount ? "Signature" : "Id Card"} (.pdf)
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Dropzone onDropFile={setIdCard} file={idCard} />
         </Grid>
-        <Grid item xs={12}>
+        {!isRemoveAccount && <Grid item xs={12}>
           <FormControlLabel
             control={
               <Checkbox color="secondary"
@@ -25,7 +25,7 @@ export default function ValidationForm({ isBankManager, setIsBankManager, setIdC
               />}
             label="I want a bank manager account"
           />
-        </Grid>
+        </Grid>}
       </Grid>
     </React.Fragment>
   );
