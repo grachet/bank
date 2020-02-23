@@ -53,9 +53,9 @@ function App() {
         removeLoader()
       } else {
         listenAccount(user.uid, setAccount)
-        notistackRef.current.enqueueSnackbar("Reconnected as " + user.email, {
-          variant: "success",
-        })
+        // notistackRef.current.enqueueSnackbar("Reconnected as " + user.email, {
+        //   variant: "success",
+        // })
         setTimeout(() => {
           removeLoader();
         }, 1000)

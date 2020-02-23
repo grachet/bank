@@ -6,7 +6,7 @@ import React from 'react'
 import Dropzone from "../DropZone"
 
 
-export default function ValidationForm({ isRemoveAccount, isBankManager, setIsBankManager, setIdCard, idCard }) {
+export default function ValidationForm({ isRemoveAccount, isBankManager, setIsBankManager, setFile, file }) {
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -14,7 +14,7 @@ export default function ValidationForm({ isRemoveAccount, isBankManager, setIsBa
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Dropzone onDropFile={setIdCard} file={idCard} />
+          <Dropzone onDropFile={setFile} file={file} />
         </Grid>
         {!isRemoveAccount && <Grid item xs={12}>
           <FormControlLabel

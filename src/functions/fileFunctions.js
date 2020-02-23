@@ -1,4 +1,4 @@
-import {storage} from "../config/firebase";
+import { storage } from "../config/firebase";
 
 export const putStorage = (file, path) => {
   storage.ref(path).put(file).then(snapshot => {
@@ -10,22 +10,31 @@ export const putIdCard = (file, id) => {
   putStorage(file, "idCard/" + id)
 };
 
-export const getIdCardUrl = (id, callback) => {
-  storage.ref("idCard/" + id + ".pdf").getDownloadURL().then(
-    callback
-  ).catch(function (error) {
-    console.error(error)
-  });
+export const putSignature = (file, id) => {
+  putStorage(file, "signature/" + id)
 };
 
-export const getIdCard = (id, callback) => {
-  getIdCardUrl(id,(url) => {
-    fetch(url)
-      .then(res => res.blob()) // Gets the response and returns it as a blob
-      .then(blob => {
-        let file = new File([blob],  "idCard.pdf");
-        console.log("file", file);
-        callback(file);
-      });
-  })
+export async function getFileUrl(path) {
+  // path = "idCard/" + id + ".pdf"
+  try {
+    return await storage.ref(path).getDownloadURL();
+  } catch (e) {
+    console.error(e)
+  }
+};
+
+export async function getFile(path, name) {
+  // path = "signature/ idCard/" + id + ".pdf" 
+  try {
+    let url = await getFileUrl(path);
+    if (!url) {
+      return null
+    }
+    let rep = await fetch(url);
+    let blob = await rep.blob();
+    return new File([blob], name || path.split("/").join("_"));
+  } catch (e) {
+    console.error(e)
+    return null
+  }
 };

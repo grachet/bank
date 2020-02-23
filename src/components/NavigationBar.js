@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 export default function NavigationBar({ account, position, setAccount }) {
   const classes = useStyles();
   let history = useHistory();
-  const [openMenu, setOpenMenu] = useState(false);
+  const [openMenu, setOpenMenu] = useState(null);
 
   // <AppBar position="absolute" color="default" className={classes.appBar}>
   //         <Toolbar>
@@ -41,7 +41,7 @@ export default function NavigationBar({ account, position, setAccount }) {
   return (
     <AppBar position={position || "static"}>
       <Toolbar>
-        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+        <IconButton edge="start" className={classes.menuButton} color="inherit" onClick={() => history.push("/")} aria-label="menu">
           <BankIcon />
         </IconButton>
         <Typography variant="h6" className={classes.title}>
@@ -73,8 +73,8 @@ export default function NavigationBar({ account, position, setAccount }) {
               vertical: 'top',
               horizontal: 'right',
             }}
-            open={openMenu}
-            onClose={() => setOpenMenu(false)}
+            open={!!openMenu}
+            onClose={() => setOpenMenu(null)}
           >
             <MenuItem onClick={() => history.push("/delete")}>Delete account</MenuItem>
             <MenuItem onClick={() => signOut(account.id, setAccount)}>Sign out</MenuItem>

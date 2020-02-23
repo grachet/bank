@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import ValidationForm from "../components/validation/ValidationForm";
 import NavigationBar from "../components/NavigationBar";
 import { writeAccount } from "../functions/firebaseFuntion";
-import { getIdCard, putIdCard } from "../functions/fileFunctions";
+import { putSignature, putIdCard, getFile } from "../functions/fileFunctions";
 import { Link } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
@@ -53,18 +53,29 @@ const useStyles = makeStyles(theme => ({
 
 export default function Validation({ account, setAccount, isRemoveAccount }) {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(account.idCard ? 1 : 0);
+  const [activeStep, setActiveStep] = React.useState(0);
   const [isBankManager, setIsBankManager] = React.useState(account.isBankManager);
-  const [idCard, setIdCard] = React.useState(null);
+  const [file, setFile] = React.useState(null);
+
 
   useEffect(() => {
-    getIdCard(account.id, setIdCard)
-  }, []);
+    setFile(null)
+    setActiveStep(0)
+    getFile((isRemoveAccount ? "signature/" : "idCard/") + account.id + ".pdf").then(file => {
+      setFile(file)
+      file && setActiveStep(1)
+    })
+  }, [account.id, isRemoveAccount]);
 
   const handleValidate = () => {
     setActiveStep(activeStep + 1);
-    putIdCard(idCard, account.id + ".pdf");
-    writeAccount({ ...account, isBankManager: !isBankManager }, account.id)
+    if (isRemoveAccount) {
+      putSignature(file, account.id + ".pdf");
+      writeAccount({ ...account, toRemove: true }, account.id)
+    } else {
+      putIdCard(file, account.id + ".pdf");
+      writeAccount({ ...account, isBankManager: !isBankManager }, account.id)
+    }
   };
 
   const handleBack = () => {
@@ -88,10 +99,10 @@ export default function Validation({ account, setAccount, isRemoveAccount }) {
             </Step>
           </Stepper>
           {activeStep === 0 ?
-            <ValidationForm isRemoveAccount={isRemoveAccount} isBankManager={isBankManager} setIsBankManager={setIsBankManager} setIdCard={setIdCard}
-              idCard={idCard} /> :
-            <div>Our bank manager should validate your account soon <br /><br />
-              {idCard && <Link href={window.URL.createObjectURL(idCard)} download={"idCard.pdf"} target={"_blank"}>{idCard.name}</Link>}
+            <ValidationForm isRemoveAccount={isRemoveAccount} isBankManager={isBankManager} setIsBankManager={setIsBankManager} setFile={setFile}
+              file={file} /> :
+            <div>Our bank manager should {isRemoveAccount ? "remove" : "validate"} your account soon <br /><br />
+              {file && <Link href={window.URL.createObjectURL(file)} download={file.name} target={"_blank"}>{file.name}</Link>}
               <div style={{ textAlign: "center" }}>
                 <img src={process.env.PUBLIC_URL + "/interview.svg"} className={classes.imgInterview} alt="" />
               </div>
