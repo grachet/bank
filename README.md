@@ -20,3 +20,5 @@ What do you want to use as your public directory? build
 
 - npm run build
 - firebase deploy
+
+- firebase deploy --only functions
