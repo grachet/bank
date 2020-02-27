@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Grid, Paper } from '@material-ui/core';
 import NavigationBar from "../components/NavigationBar";
@@ -7,9 +7,11 @@ import Deposits from "../components/account/Deposits";
 import Chart from "../components/account/Chart";
 import clsx from 'clsx';
 import Copyright from "../components/Copyright"
+import PromptDialogue from "../components/forms/PromptDialogue"
 import ActionButton from '../components/ActionButton';
 import TransfertIcon from '@material-ui/icons/Send';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import * as Yup from "yup";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,6 +45,7 @@ export default function Account({ account, setAccount }) {
   const classes = useStyles();
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const [openAddBeneficiary, setOpenAddBeneficiary] = useState(false);
 
   return (
     <div className={classes.root}>
@@ -68,8 +71,29 @@ export default function Account({ account, setAccount }) {
             </Grid>
           </Grid>
         </Container>
+        <PromptDialogue
+          open={openAddBeneficiary}
+          onCancel={() => setOpenAddBeneficiary(false)}
+          onOk={(data) => console.log(data)}
+          title={"Add a Beneficiary"}
+          text={"You can only send money to your beneficiaries"}
+          fields={[
+            {
+              title: "RIB",
+              path: ["RIB"],
+              yup: Yup.string().required(),
+              typeField: "textfield"
+            },
+            {
+              title: "Name",
+              path: ["name"],
+              yup: Yup.string().required(),
+              typeField: "textfield"
+            }
+          ]}
+        />
         <ActionButton
-          actions={[{ name: "Transfert", icon: <TransfertIcon />, action: () => null }, { name: "Add beneficiary", icon: <PersonAddIcon />, action: () => null }]}
+          actions={[{ name: "Transfert", icon: <TransfertIcon />, action: () => null }, { name: "Add beneficiary", icon: <PersonAddIcon />, action: () => setOpenAddBeneficiary(true) }]}
         />
         <Copyright />
       </main>
