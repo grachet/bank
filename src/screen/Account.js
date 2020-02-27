@@ -1,12 +1,15 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import {Container, Grid, Paper} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { Container, Grid, Paper } from '@material-ui/core';
 import NavigationBar from "../components/NavigationBar";
 import Orders from "../components/account/Orders";
 import Deposits from "../components/account/Deposits";
 import Chart from "../components/account/Chart";
 import clsx from 'clsx';
 import Copyright from "../components/Copyright"
+import ActionButton from '../components/ActionButton';
+import TransfertIcon from '@material-ui/icons/Send';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,36 +39,39 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Account({account, setAccount}) {
+export default function Account({ account, setAccount }) {
   const classes = useStyles();
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
-      <NavigationBar position="absolute" account={account}  setAccount={setAccount}/>
+      <NavigationBar position="absolute" account={account} setAccount={setAccount} />
       <main className={classes.content}>
-        <div className={classes.appBarSpacer}/>
+        <div className={classes.appBarSpacer} />
         <Container maxWidth="md" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
-                <Chart account={account}/>
+                <Chart account={account} />
               </Paper>
             </Grid>
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <Deposits account={account}/>
+                <Deposits account={account} />
               </Paper>
             </Grid>
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Orders account={account}/>
+                <Orders account={account} />
               </Paper>
             </Grid>
           </Grid>
         </Container>
-        <Copyright/>
+        <ActionButton
+          actions={[{ name: "Transfert", icon: <TransfertIcon />, action: () => null }, { name: "Add beneficiary", icon: <PersonAddIcon />, action: () => null }]}
+        />
+        <Copyright />
       </main>
     </div>
   );
