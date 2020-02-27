@@ -12,6 +12,7 @@ import ActionButton from '../components/ActionButton';
 import TransfertIcon from '@material-ui/icons/Send';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import * as Yup from "yup";
+import { writeAccount } from '../functions/firebaseFuntion';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -69,27 +70,35 @@ export default function Account({ account, setAccount }) {
                 <Orders account={account} />
               </Paper>
             </Grid>
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Orders account={account} />
+              </Paper>
+            </Grid>
           </Grid>
         </Container>
         <PromptDialogue
           open={openAddBeneficiary}
           onCancel={() => setOpenAddBeneficiary(false)}
-          onOk={(data) => console.log(data)}
+          onOk={({ RIB, name }) => {
+            console.log(RIB, name);
+            writeAccount({ ...account, beneficiaries: [...(account.beneficiaries || []), { RIB, name }] }, account.id)
+          }}
           title={"Add a Beneficiary"}
           text={"You can only send money to your beneficiaries"}
           fields={[
-            {
-              title: "RIB",
-              path: ["RIB"],
-              yup: Yup.string().required(),
-              typeField: "textfield"
-            },
             {
               title: "Name",
               path: ["name"],
               yup: Yup.string().required(),
               typeField: "textfield"
-            }
+            },
+            {
+              title: "RIB",
+              path: ["RIB"],
+              yup: Yup.string().matches(/[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}/, 'Must be a valid RIB').required(),
+              typeField: "textfield"
+            },
           ]}
         />
         <ActionButton
