@@ -12,7 +12,8 @@ import ActionButton from '../components/ActionButton';
 import TransfertIcon from '@material-ui/icons/Send';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import * as Yup from "yup";
-import { writeAccount } from '../functions/firebaseFuntion';
+import { writeAccount, makeTransfert } from '../functions/firebaseFuntion';
+import MaterialTable from 'material-table';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,6 +48,7 @@ export default function Account({ account, setAccount }) {
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const [openAddBeneficiary, setOpenAddBeneficiary] = useState(false);
+  const [openTransfert, setOpenTransfert] = useState(false);
 
   return (
     <div className={classes.root}>
@@ -71,12 +73,71 @@ export default function Account({ account, setAccount }) {
               </Paper>
             </Grid>
             <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Orders account={account} />
-              </Paper>
+              <div className={classes.mtmd}>
+                <MaterialTable
+                  localization={{
+                    actions: null,
+                    emptyDataSourceMessage: "No beneficiaries",
+                  }}
+                  options={{
+                    search: false,
+                    pageSize: 5,
+                    pageSizeOptions: [5, 10]
+                  }}
+                  columns={[
+                    { title: 'Name', field: 'name' },
+                    { title: 'RIB', field: 'RIB' },
+                  ]}
+                  actions={[
+                    {
+                      icon: 'close',
+                      onClick: (event, obj) => {
+                        let acc = { ...account };
+                        let i = obj.tableData.id;
+                        acc.beneficiaries.splice(i, 1);
+                        writeAccount(acc, acc.id)
+                      }
+                    }
+                  ]}
+                  data={account.beneficiaries}
+                  title="Beneficiaries"
+                />
+              </div>
             </Grid>
           </Grid>
         </Container>
+        <PromptDialogue
+          open={openTransfert}
+          onCancel={() => setOpenTransfert(false)}
+          onOk={({ RIB, ammount, title }) => {
+            console.log(RIB, ammount, title);
+            makeTransfert(RIB, ammount, title)
+          }}
+          title={"Transfert money"}
+          text={"Make sure to have enter the good RIB 🙂"}
+          fields={[
+            {
+              title: "Title",
+              path: ["title"],
+              yup: Yup.string().required(),
+              typeField: "textfield"
+            },
+            {
+              title: "Beneficiary",
+              path: ["RIB"],
+              yup: Yup.string().required(),
+              typeField: "select",
+              choice: (account.beneficiaries || []).map(b => b.RIB),
+              titleChoice: (account.beneficiaries || []).map(b => b.name)
+            },
+            {
+              title: "Ammount",
+              path: ["ammount"],
+              yup: Yup.number().required(),
+              typeField: "textfield",
+            }
+          ]}
+        />
         <PromptDialogue
           open={openAddBeneficiary}
           onCancel={() => setOpenAddBeneficiary(false)}
@@ -96,13 +157,13 @@ export default function Account({ account, setAccount }) {
             {
               title: "RIB",
               path: ["RIB"],
-              yup: Yup.string().matches(/[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}/, 'Must be a valid RIB').required(),
+              yup: Yup.string().matches(/^FR[0-9]{10}[a-zA-Z0-9]{11}[0-9]{2}$/, 'Must be a valid RIB').required(),
               typeField: "textfield"
             },
           ]}
         />
         <ActionButton
-          actions={[{ name: "Transfert", icon: <TransfertIcon />, action: () => null }, { name: "Add beneficiary", icon: <PersonAddIcon />, action: () => setOpenAddBeneficiary(true) }]}
+          actions={[{ name: "Transfert", icon: <TransfertIcon />, action: () => setOpenTransfert(true) }, { name: "Add beneficiary", icon: <PersonAddIcon />, action: () => setOpenAddBeneficiary(true) }]}
         />
         <Copyright />
       </main>

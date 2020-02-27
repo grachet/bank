@@ -1,6 +1,6 @@
 /* eslint-disable no-script-url */
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Title from './Title';
 import Button from '@material-ui/core/Button';
@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Deposits({account}) {
+export default function Deposits({ account }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   let ref;
@@ -30,7 +30,7 @@ export default function Deposits({account}) {
       </Typography>
       <div>
         <Button color="primary" onClick={() => setOpen(!open)}>
-          View RIB
+          View your RIB
         </Button>
       </div>
       <Dialog open={open} onClose={() => setOpen(false)}>

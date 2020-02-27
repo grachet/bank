@@ -1,6 +1,7 @@
 import { database } from "../config/firebase";
 
 export const writeDatabase = (object, path) => {
+  console.log(object, path)
   database.ref(path).set(object);
 };
 
@@ -18,6 +19,10 @@ export async function deleteDatabaseObject(path) {
   }
 };
 
+export const makeTransfert = (RIB, ammount, title) => {
+  const timestamp = Date.now();
+  writeDatabase({ timestamp, RIB, ammount, title }, "transferts/" + timestamp)
+};
 
 export const listenAccount = (id, callback) => {
   listenDatabase("accounts/" + id, callback)
