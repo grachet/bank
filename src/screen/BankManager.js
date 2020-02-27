@@ -30,6 +30,9 @@ const useStyles = makeStyles(theme => ({
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
   },
+  mtmd: {
+    marginTop: 20
+  },
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
@@ -66,6 +69,8 @@ export default function BankManager({ account, setAccount }) {
     }
   });
 
+  console.log(allAccounts)
+
   return (
     <div className={classes.root}>
       <NavigationBar position="absolute" account={account} setAccount={setAccount} />
@@ -74,110 +79,145 @@ export default function BankManager({ account, setAccount }) {
         <Container maxWidth="md" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <MaterialTable
-                localization={{
-                  actions: null,
-                  emptyDataSourceMessage: "No account need validation",
-                }}
-                options={{
-                  search: false,
-                  pageSize: 5,
-                  pageSizeOptions: [5, 10]
-                }}
-                actions={[
-                  {
-                    icon: 'check',
-                    tooltip: 'Validate account',
-                    onClick: (event, { id }) => {
-                      writeAccount({ ...allAccounts[id], isVerified: true }, id)
+              <div className={classes.mtmd}>
+                <MaterialTable
+                  localization={{
+                    actions: null,
+                    emptyDataSourceMessage: "No account found",
+                  }}
+                  options={{
+                    search: true,
+                    pageSize: 5,
+                    pageSizeOptions: [5, 10]
+                  }}
+                  columns={[
+                    { title: 'RIB', field: 'RIB' },
+                    { title: 'Email', field: 'email' },
+                    {
+                      title: 'Name', field: 'id', render: rowData => {
+                        return rowData.name + " " + rowData.firstName
+                      }
+                    },
+                    {
+                      title: 'Is Manager', field: 'isBankManager', render: rowData => {
+                        return rowData.isBankManager ? "Yes" : "No"
+                      }
                     }
-                  }
-                ]}
-                columns={[
-                  { title: 'Email', field: 'email' },
-                  {
-                    title: 'Name', field: 'id', render: rowData => {
-                      return rowData.name + " " + rowData.firstName
+                  ]}
+                  data={Object.values(allAccounts)}
+                  title="All Accounts"
+                />
+              </div>
+              <div className={classes.mtmd}>
+                <MaterialTable
+                  localization={{
+                    actions: null,
+                    emptyDataSourceMessage: "No account need validation",
+                  }}
+                  options={{
+                    search: false,
+                    pageSize: 5,
+                    pageSizeOptions: [5, 10]
+                  }}
+                  actions={[
+                    {
+                      icon: 'check',
+                      tooltip: 'Validate account',
+                      onClick: (event, { id }) => {
+                        let account = { ...allAccounts[id], isVerified: true };
+                        console.log(account)
+                        delete account.tableData
+                        console.log(account)
+                        writeAccount(account, id)
+                      }
                     }
-                  },
-                  {
-                    title: 'Id Card.pdf', render: rowData => {
-                      return <IconButton
-                        onClick={() => {
-                          setLoadingIdCard(lod => ({ ...lod, [rowData.id]: true }));
-                          storage.ref("idCard/" + rowData.id + ".pdf").getDownloadURL().then(url => {
-                            setLoadingIdCard(lod => ({ ...lod, [rowData.id]: false }));
-                            window.open(url)
-                          }).catch(err => {
-                            setLoadingIdCard(lod => ({ ...lod, [rowData.id]: false }));
-                            enqueueSnackbar(err.message_, {
-                              variant: 'warning',
-                            });
-                          })
-                        }}
-                      >
-                        <DownloadIcon />
-                        {loadingIdCard[rowData.id] && <CircularProgress className={classes.circularProgressIconButton} />}
-                      </IconButton>
+                  ]}
+                  columns={[
+                    { title: 'Email', field: 'email' },
+                    {
+                      title: 'Name', field: 'id', render: rowData => {
+                        return rowData.name + " " + rowData.firstName
+                      }
+                    },
+                    {
+                      title: 'Id Card.pdf', render: rowData => {
+                        return <IconButton
+                          onClick={() => {
+                            setLoadingIdCard(lod => ({ ...lod, [rowData.id]: true }));
+                            storage.ref("idCard/" + rowData.id + ".pdf").getDownloadURL().then(url => {
+                              setLoadingIdCard(lod => ({ ...lod, [rowData.id]: false }));
+                              window.open(url)
+                            }).catch(err => {
+                              setLoadingIdCard(lod => ({ ...lod, [rowData.id]: false }));
+                              enqueueSnackbar(err.message_, {
+                                variant: 'warning',
+                              });
+                            })
+                          }}
+                        >
+                          <DownloadIcon />
+                          {loadingIdCard[rowData.id] && <CircularProgress className={classes.circularProgressIconButton} />}
+                        </IconButton>
+                      }
+                    },
+                  ]}
+                  data={accountsToValidate}
+                  title="Account Validation"
+                />
+              </div>
+              <div className={classes.mtmd}>
+                <MaterialTable
+                  localization={{
+                    actions: null,
+                    emptyDataSourceMessage: "No account need to be removed",
+                  }}
+                  options={{
+                    search: false,
+                    pageSize: 5,
+                    pageSizeOptions: [5, 10]
+                  }}
+                  columns={[
+                    { title: 'Email', field: 'email' },
+                    {
+                      title: 'Name', field: 'id', render: rowData => {
+                        return rowData.name + " " + rowData.firstName
+                      }
+                    },
+                    {
+                      title: 'Signature.pdf', render: rowData => {
+                        return <IconButton
+                          onClick={() => {
+                            setLoadingSignature(lod => ({ ...lod, [rowData.id]: true }));
+                            storage.ref("signature/" + rowData.id + ".pdf").getDownloadURL().then(url => {
+                              setLoadingSignature(lod => ({ ...lod, [rowData.id]: false }));
+                              window.open(url)
+                            }).catch(err => {
+                              setLoadingSignature(lod => ({ ...lod, [rowData.id]: false }));
+                              enqueueSnackbar(err.message_, {
+                                variant: 'warning',
+                              });
+                            })
+                          }}
+                        >
+                          <DownloadIcon />
+                          {loadingSignature[rowData.id] && <CircularProgress className={classes.circularProgressIconButton} />}
+                        </IconButton>
+                      }
                     }
-                  },
-                ]}
-                data={accountsToValidate}
-                title="Account Validation"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <MaterialTable
-                localization={{
-                  actions: null,
-                  emptyDataSourceMessage: "No account need to be removed",
-                }}
-                options={{
-                  search: false,
-                  pageSize: 5,
-                  pageSizeOptions: [5, 10]
-                }}
-                columns={[
-                  { title: 'Email', field: 'email' },
-                  {
-                    title: 'Name', field: 'id', render: rowData => {
-                      return rowData.name + " " + rowData.firstName
+                  ]}
+                  actions={[
+                    {
+                      icon: 'delete',
+                      tooltip: 'Remove account',
+                      onClick: (event, { id }) => {
+                        deleteAccount(id)
+                      }
                     }
-                  },
-                  {
-                    title: 'Signature.pdf', render: rowData => {
-                      return <IconButton
-                        onClick={() => {
-                          setLoadingSignature(lod => ({ ...lod, [rowData.id]: true }));
-                          storage.ref("signature/" + rowData.id + ".pdf").getDownloadURL().then(url => {
-                            setLoadingSignature(lod => ({ ...lod, [rowData.id]: false }));
-                            window.open(url)
-                          }).catch(err => {
-                            setLoadingSignature(lod => ({ ...lod, [rowData.id]: false }));
-                            enqueueSnackbar(err.message_, {
-                              variant: 'warning',
-                            });
-                          })
-                        }}
-                      >
-                        <DownloadIcon />
-                        {loadingSignature[rowData.id] && <CircularProgress className={classes.circularProgressIconButton} />}
-                      </IconButton>
-                    }
-                  }
-                ]}
-                actions={[
-                  {
-                    icon: 'delete',
-                    tooltip: 'Remove account',
-                    onClick: (event, { id }) => {
-                      deleteAccount(id)
-                    }
-                  }
-                ]}
-                data={accountsToRemove}
-                title="Account To Remove"
-              />
+                  ]}
+                  data={accountsToRemove}
+                  title="Account To Remove"
+                />
+              </div>
             </Grid>
           </Grid>
         </Container>
