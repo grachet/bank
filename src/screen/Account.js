@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Grid, Paper } from '@material-ui/core';
 import NavigationBar from "../components/NavigationBar";
-import Orders from "../components/account/Orders";
 import Deposits from "../components/account/Deposits";
 import Chart from "../components/account/Chart";
 import clsx from 'clsx';
@@ -12,8 +11,9 @@ import ActionButton from '../components/ActionButton';
 import TransfertIcon from '@material-ui/icons/Send';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import * as Yup from "yup";
-import { writeAccount, makeTransfert } from '../functions/firebaseFuntion';
+import { writeAccount, makeTransfert, listenTransferts } from '../functions/firebaseFuntion';
 import MaterialTable from 'material-table';
+import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,12 +43,43 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+function formatDate(date) {
+  console.log(date)
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? 'pm' : 'am';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  var strTime = hours + ':' + minutes + ' ' + ampm;
+  let result = date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+  console.log(result)
+  return result
+}
+
 export default function Account({ account, setAccount }) {
   const classes = useStyles();
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const [openAddBeneficiary, setOpenAddBeneficiary] = useState(false);
   const [openTransfert, setOpenTransfert] = useState(false);
+  const [transferts, setTransferts] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
+
+
+
+
+  useEffect(() => {
+    listenTransferts(setTransferts)
+  }, [])
+
+  let sortedTransferts = Object.values(transferts).filter(t => t.from === account.RIB || t.to === account.RIB)
+    .map(t => ({
+      ...t, RIB: t.from === account.RIB ? t.to : t.from,
+      ammount: t.from === account.RIB ? t.ammount : -t.ammount
+    }))
+
+
 
   return (
     <div className={classes.root}>
@@ -68,9 +99,34 @@ export default function Account({ account, setAccount }) {
               </Paper>
             </Grid>
             <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Orders account={account} />
-              </Paper>
+              <div className={classes.mtmd}>
+                <MaterialTable
+                  localization={{
+                    actions: null,
+                    emptyDataSourceMessage: "No transferts",
+                  }}
+                  options={{
+                    search: true,
+                    pageSize: 5,
+                    pageSizeOptions: [5, 10],
+                    rowStyle: rowData => ({
+                      backgroundColor: rowData.ammount < 0 ? '#EEEEEE' : '#fff'
+                    })
+                  }}
+                  columns={[
+                    {
+                      title: 'Date', field: 'timestamp', render: (rowdata) => {
+                        return formatDate(new Date(rowdata.timestamp))
+                      }
+                    },
+                    { title: 'Title', field: 'title' },
+                    { title: 'RIB', field: 'RIB' },
+                    { title: '€', field: 'ammount' },
+                  ]}
+                  data={sortedTransferts}
+                  title="Transferts"
+                />
+              </div>
             </Grid>
             <Grid item xs={12}>
               <div className={classes.mtmd}>
@@ -111,8 +167,9 @@ export default function Account({ account, setAccount }) {
           onCancel={() => setOpenTransfert(false)}
           onOk={({ RIB, ammount, title }) => {
             console.log(RIB, ammount, title);
-            makeTransfert(RIB, ammount, title)
+            makeTransfert(account.RIB, RIB, ammount, title)
           }}
+          defaultValue={{ RIB: account.beneficiaries && account.beneficiaries[0] && account.beneficiaries[0].RIB }}
           title={"Transfert money"}
           text={"Make sure to have enter the good RIB 🙂"}
           fields={[
@@ -142,8 +199,13 @@ export default function Account({ account, setAccount }) {
           open={openAddBeneficiary}
           onCancel={() => setOpenAddBeneficiary(false)}
           onOk={({ RIB, name }) => {
-            console.log(RIB, name);
-            writeAccount({ ...account, beneficiaries: [...(account.beneficiaries || []), { RIB, name }] }, account.id)
+            if (RIB !== account.RIB) {
+              writeAccount({ ...account, beneficiaries: [...(account.beneficiaries || []), { RIB, name }] }, account.id)
+            } else {
+              enqueueSnackbar("You can't add your own RIB as beneficiary", {
+                variant: 'warning',
+              });
+            }
           }}
           title={"Add a Beneficiary"}
           text={"You can only send money to your beneficiaries"}

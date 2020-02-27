@@ -19,9 +19,13 @@ export async function deleteDatabaseObject(path) {
   }
 };
 
-export const makeTransfert = (RIB, ammount, title) => {
+export const makeTransfert = (from, to, ammount, title) => {
   const timestamp = Date.now();
-  writeDatabase({ timestamp, RIB, ammount, title }, "transferts/" + timestamp)
+  writeDatabase({ timestamp, from, to, ammount, title }, "transferts/" + timestamp)
+};
+
+export const listenTransferts = (callback) => {
+  listenDatabase("transferts", callback)
 };
 
 export const listenAccount = (id, callback) => {
