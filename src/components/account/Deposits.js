@@ -15,15 +15,20 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Deposits({ account }) {
+export default function Deposits({ account, deposits }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   let ref;
   return (
     <React.Fragment>
       <Title>Actual Deposits</Title>
-      <Typography component="p" variant="h4">
-        3,024.00€
+      <Typography component="p" variant={Math.abs(deposits) > 9999 ? "h6" : "h4"}>
+        {/* 3,024.00 */}
+        {deposits.toLocaleString(
+          undefined, // leave undefined to use the browser's locale,
+          // or use a string like 'en-US' to override it.
+          { minimumFractionDigits: 2 }
+        )}€
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
         on {new Date().toDateString()}
@@ -48,7 +53,6 @@ export default function Deposits({ account }) {
             Close
           </Button>
           <Button onClick={() => {
-            console.log(ref);
             ref.select();
             ref.setSelectionRange(0, 99999);
             document.execCommand("copy");

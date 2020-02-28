@@ -69,8 +69,6 @@ export default function BankManager({ account, setAccount }) {
     }
   });
 
-  console.log(allAccounts)
-
   return (
     <div className={classes.root}>
       <NavigationBar position="absolute" account={account} setAccount={setAccount} />
@@ -125,9 +123,7 @@ export default function BankManager({ account, setAccount }) {
                       tooltip: 'Validate account',
                       onClick: (event, { id }) => {
                         let account = { ...allAccounts[id], isVerified: true };
-                        console.log(account)
                         delete account.tableData
-                        console.log(account)
                         writeAccount(account, id)
                       }
                     }

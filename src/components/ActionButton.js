@@ -3,7 +3,7 @@ import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 import CloseIcon from "@material-ui/icons/ArrowBack";
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
-import { CircularProgress, Fab, Tooltip, makeStyles, Backdrop } from '@material-ui/core';
+import { CircularProgress, Fab, Tooltip, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   speedDial: {
@@ -52,7 +52,6 @@ export default function ActionButton({ mainAction, actions, backButton, loading 
 
   return (
     <span>
-      <Backdrop open={open} />
       <SpeedDial
         ariaLabel="speedDial"
         FabProps={{ disabled: loading }}

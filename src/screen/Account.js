@@ -9,7 +9,6 @@ import Copyright from "../components/Copyright"
 import PromptDialogue from "../components/forms/PromptDialogue"
 import ActionButton from '../components/ActionButton';
 import TransfertIcon from '@material-ui/icons/Send';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import * as Yup from "yup";
 import { writeAccount, makeTransfert, listenTransferts } from '../functions/firebaseFuntion';
 import MaterialTable from 'material-table';
@@ -43,8 +42,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function formatDate(date) {
-  console.log(date)
+export function formatDate(date) {
   var hours = date.getHours();
   var minutes = date.getMinutes();
   var ampm = hours >= 12 ? 'pm' : 'am';
@@ -53,7 +51,6 @@ function formatDate(date) {
   minutes = minutes < 10 ? '0' + minutes : minutes;
   var strTime = hours + ':' + minutes + ' ' + ampm;
   let result = date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
-  console.log(result)
   return result
 }
 
@@ -66,9 +63,6 @@ export default function Account({ account, setAccount }) {
   const [transferts, setTransferts] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
 
-
-
-
   useEffect(() => {
     listenTransferts(setTransferts)
   }, [])
@@ -76,10 +70,10 @@ export default function Account({ account, setAccount }) {
   let sortedTransferts = Object.values(transferts).filter(t => t.from === account.RIB || t.to === account.RIB)
     .map(t => ({
       ...t, RIB: t.from === account.RIB ? t.to : t.from,
-      ammount: t.from === account.RIB ? t.ammount : -t.ammount
+      ammount: t.from === account.RIB ? -t.ammount : t.ammount
     }))
 
-
+  let deposits = sortedTransferts.reduce((a, b) => { return parseFloat(a) + parseFloat(b.ammount) }, 0)
 
   return (
     <div className={classes.root}>
@@ -90,12 +84,12 @@ export default function Account({ account, setAccount }) {
           <Grid container spacing={3}>
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
-                <Chart account={account} />
+                <Chart sortedTransferts={sortedTransferts} />
               </Paper>
             </Grid>
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <Deposits account={account} />
+                <Deposits deposits={deposits} account={account} />
               </Paper>
             </Grid>
             <Grid item xs={12}>
@@ -153,6 +147,12 @@ export default function Account({ account, setAccount }) {
                         acc.beneficiaries.splice(i, 1);
                         writeAccount(acc, acc.id)
                       }
+                    },
+                    {
+                      icon: 'add',
+                      tooltip: 'Add Beneficiary',
+                      isFreeAction: true,
+                      onClick: (event) => setOpenAddBeneficiary(true)
                     }
                   ]}
                   data={account.beneficiaries}
@@ -166,12 +166,11 @@ export default function Account({ account, setAccount }) {
           open={openTransfert}
           onCancel={() => setOpenTransfert(false)}
           onOk={({ RIB, ammount, title }) => {
-            console.log(RIB, ammount, title);
             makeTransfert(account.RIB, RIB, ammount, title)
           }}
           defaultValue={{ RIB: account.beneficiaries && account.beneficiaries[0] && account.beneficiaries[0].RIB }}
           title={"Transfert money"}
-          text={"Make sure to have enter the good RIB 🙂"}
+          text={"Make sure to have enter the good RIB 🙂 ! (unlimited overdraft)"}
           fields={[
             {
               title: "Title",
@@ -190,7 +189,7 @@ export default function Account({ account, setAccount }) {
             {
               title: "Ammount",
               path: ["ammount"],
-              yup: Yup.number().required(),
+              yup: Yup.number().positive().required(),
               typeField: "textfield",
             }
           ]}
@@ -225,7 +224,7 @@ export default function Account({ account, setAccount }) {
           ]}
         />
         <ActionButton
-          actions={[{ name: "Transfert", icon: <TransfertIcon />, action: () => setOpenTransfert(true) }, { name: "Add beneficiary", icon: <PersonAddIcon />, action: () => setOpenAddBeneficiary(true) }]}
+          mainAction={{ name: "Transfert", icon: <TransfertIcon />, action: () => setOpenTransfert(true) }}
         />
         <Copyright />
       </main>

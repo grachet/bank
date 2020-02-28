@@ -1,7 +1,6 @@
 import { database } from "../config/firebase";
 
 export const writeDatabase = (object, path) => {
-  console.log(object, path)
   database.ref(path).set(object);
 };
 
