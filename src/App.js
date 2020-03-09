@@ -13,6 +13,10 @@ import { listenAccount } from "./functions/firebaseFuntion";
 import { fetchUser } from './functions/authFunctions';
 import { SnackbarProvider } from 'notistack';
 import { IconButton } from '@material-ui/core';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
 
 const mainTheme = createMuiTheme({
   palette: {
@@ -65,32 +69,34 @@ function App() {
 
   return (
     <ThemeProvider theme={mainTheme}>
-      <SnackbarProvider maxSnack={4} dense
-        ref={notistackRef}
-        action={(key) => (
-          <IconButton key={2} size="small" color={"inherit"} onClick={() => notistackRef.current.closeSnackbar(key)}><CloseIcon /></IconButton>
-        )}
-      >
-        <Router>
-          <Switch>
-            <Route path="/signin">
-              <SignIn account={account} onSign={onSign} />
-            </Route>
-            <Route path="/signup">
-              <SignUp account={account} onSign={onSign} />
-            </Route>
-            <PrivateRoute path="/delete" account={account}>
-              <Validation setAccount={setAccount} account={account} isRemoveAccount />
-            </PrivateRoute>
-            <PrivateRoute path="/" account={account}>
-              {
-                account && !account.isVerified ? <Validation setAccount={setAccount} account={account} /> : account && account.isBankManager ? <BankManager setAccount={setAccount} account={account} /> :
-                  <Account setAccount={setAccount} account={account} />
-              }
-            </PrivateRoute>
-          </Switch>
-        </Router>
-      </SnackbarProvider>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <SnackbarProvider maxSnack={4} dense
+          ref={notistackRef}
+          action={(key) => (
+            <IconButton key={2} size="small" color={"inherit"} onClick={() => notistackRef.current.closeSnackbar(key)}><CloseIcon /></IconButton>
+          )}
+        >
+          <Router>
+            <Switch>
+              <Route path="/signin">
+                <SignIn account={account} onSign={onSign} />
+              </Route>
+              <Route path="/signup">
+                <SignUp account={account} onSign={onSign} />
+              </Route>
+              <PrivateRoute path="/delete" account={account}>
+                <Validation setAccount={setAccount} account={account} isRemoveAccount />
+              </PrivateRoute>
+              <PrivateRoute path="/" account={account}>
+                {
+                  account && !account.isVerified ? <Validation setAccount={setAccount} account={account} /> : account && account.isBankManager ? <BankManager setAccount={setAccount} account={account} /> :
+                    <Account setAccount={setAccount} account={account} />
+                }
+              </PrivateRoute>
+            </Switch>
+          </Router>
+        </SnackbarProvider>
+      </MuiPickersUtilsProvider>
     </ThemeProvider>
   );
 }

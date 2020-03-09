@@ -14,6 +14,9 @@ import Container from '@material-ui/core/Container';
 import Copyright from "../components/Copyright"
 import { createAccount } from "../functions/authFunctions";
 import { FormHelperText } from "@material-ui/core";
+import {
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -22,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   paper: {
-    marginTop: theme.spacing(8),
+    paddingTop: 30,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -37,6 +40,7 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    textAlign: "center"
   },
 }));
 
@@ -46,6 +50,8 @@ export default function SignUp({ account, onSign }) {
   const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [address, setAddress] = useState("");
+  const [birstDate, setBirstDate] = React.useState(new Date('2000-01-01T21:11:54'));
   const [errorMessage, setErrorMessage] = useState("");
   let history = useHistory();
 
@@ -54,7 +60,7 @@ export default function SignUp({ account, onSign }) {
   }, [account, history]);
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="md">
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -64,84 +70,121 @@ export default function SignUp({ account, onSign }) {
           Bankorama
         </Typography>
         <form className={classes.form} noValidate>
-          <Grid container spacing={2}>
+          <Grid container spacing={4}>
             <Grid item xs={12} sm={6}>
-              <TextField
-                error={!!errorMessage}
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-              />
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    error={!!errorMessage}
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    error={!!errorMessage}
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </Grid>
+              </Grid>
             </Grid>
+
             <Grid item xs={12} sm={6}>
-              <TextField
-                error={!!errorMessage}
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    error={!!errorMessage}
+                    autoComplete="fname"
+                    name="firstName"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="firstName"
+                    label="First Name"
+                    autoFocus
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    error={!!errorMessage}
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="lastName"
+                    label="Last Name"
+                    name="lastName"
+                    autoComplete="lname"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    error={!!errorMessage}
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="address"
+                    label="Address"
+                    name="address"
+                    autoComplete="address"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <KeyboardDatePicker
+                    inputVariant="outlined"
+                    fullWidth
+                    format="dd/MM/yyyy"
+                    id="date-picker-inline"
+                    label="Birst Date"
+                    value={birstDate}
+                    onChange={(date) => setBirstDate(date)}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                </Grid>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                error={!!errorMessage}
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                error={!!errorMessage}
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Grid>
-          </Grid>
-          <FormHelperText error>{errorMessage}</FormHelperText>
-          <Button
-            onClick={() => createAccount(email, password, { name, firstName }, (acc) => {
-              onSign(acc);
-              history.push("/")
-            }, setErrorMessage)}
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign Up
+            <FormHelperText error>{errorMessage}</FormHelperText>
+            <Button
+              onClick={() => createAccount(email, password, { name, firstName, address, birstDate: new Date(birstDate).getTime() }, (acc) => {
+                onSign(acc);
+                history.push("/")
+              }, setErrorMessage)}
+              variant="contained"
+              fullWidth
+              color="primary"
+              className={classes.submit}
+            >
+              Sign Up
           </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link variant="body2" onClick={() => history.push("/signin")}>
-                Already have an account? Sign in
+            <Grid container justify="flex-end">
+              <Grid item>
+                <Link variant="body2" onClick={() => history.push("/signin")}>
+                  Already have an account? Sign in
                   </Link>
+              </Grid>
             </Grid>
           </Grid>
         </form>
