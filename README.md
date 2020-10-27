@@ -1,4 +1,5 @@
-React Bank Project
+A Simple Bank website in React.js. 
+Database/hosting done with firebase.
 
 Launch project
 - install node.js
