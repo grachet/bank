@@ -1,12 +1,13 @@
-A Simple Bank website in React.js. 
+[Website url](https://bank-c4f41.web.app/) : 
+
+A Simple Bank application in React.js. 
+
 Database/hosting done with firebase.
 
 Launch project
 - install node.js
 - npm i
 - npm start
-
-Website url :  https://bank-c4f41.web.app/signin
 
 Publish in prod :
 - npm i -g firebase-tools
