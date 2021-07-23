@@ -1,6 +1,8 @@
-[Try online](https://bank-c4f41.web.app/) 
+[Try online](https://bankorama-bank.web.app/) 
 
 A Simple Bank application in React.js. 
+
+Connect or create an account, then you need to upload your ID card as a PDF file. An admin will validate your account based on the document and allow you to add beneficiaries and transfer (fake) money. Check your balance with a history and graph visualization. You can manage accounts as an admin.   
 
 Database/hosting done with firebase.
 
@@ -21,6 +23,9 @@ Publish in prod :
 * Configure as a single-page app (rewrite all urls to /index.html)? Yes
 
 - npm run build
+- cd /function
+- npm i 
 - firebase deploy
+ 
 
 - firebase deploy --only functions
