@@ -2,7 +2,7 @@
 
 A Simple Bank application in React.js. 
 
-Connect or create an account, then you need to upload your ID card as a PDF file. An admin will validate your account based on the document and allow you to add beneficiaries and transfer (fake) money. Check your balance with a history and graph visualization. You can manage accounts as an admin.   
+Connect or create an account, then you need to upload your ID card as a PDF file. A bank manager (Admin) will validate your account based on the document and allow you to add beneficiaries and transfer (fake) money. Check your balance with a history and graph visualization. You can manage accounts as an admin. If you want to delete your account, you need to upload a signature and be validated by a bank manager.
 
 Database/hosting done with firebase.
 
