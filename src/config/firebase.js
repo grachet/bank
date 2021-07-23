@@ -1,6 +1,6 @@
 import { database as fdatabase, auth, storage as fstorage, initializeApp } from "firebase";
 
-import FirebaseConfig from "./firebaseConfig";
+import { FirebaseConfig } from "./firebaseConfig";
 
 initializeApp(FirebaseConfig);
 

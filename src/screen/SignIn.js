@@ -47,8 +47,8 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignIn({ account, onSign }) {
   const classes = useStyles();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("guest@gmail.com");
+  const [password, setPassword] = useState("password");
   const [errorMessage, setErrorMessage] = useState("");
   let history = useHistory();
 
@@ -71,6 +71,7 @@ export default function SignIn({ account, onSign }) {
           <form className={classes.form}>
             <TextField
               error={!!errorMessage}
+              helperText={"Try guest2@gmail.com or admin@gmail.com (same password)"}
               variant="outlined"
               margin="normal"
               required
@@ -115,11 +116,11 @@ export default function SignIn({ account, onSign }) {
             >
               Sign In
             </Button>
-            <Grid container justify={"flex-end"}>
+            <Grid container justifyContent={"flex-end"}>
               <Grid item>
                 <Link variant="body2" onClick={() => history.push("/signup")}>
                   Don't have an account? Sign Up
-                  </Link>
+                </Link>
               </Grid>
             </Grid>
             <Box mt={5}>

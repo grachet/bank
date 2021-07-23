@@ -8,7 +8,7 @@ import Validation from "./screen/Validation";
 import Account from "./screen/Account";
 import BankManager from "./screen/BankManager";
 
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import { listenAccount } from "./functions/firebaseFuntion";
 import { fetchUser } from './functions/authFunctions';
 import { SnackbarProvider } from 'notistack';
@@ -18,7 +18,7 @@ import {
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 
-const mainTheme = createMuiTheme({
+const mainTheme = createTheme({
   palette: {
     primary: {
       main: "#202020"
@@ -109,13 +109,13 @@ function PrivateRoute({ children, account, ...rest }) {
         account ? (
           children
         ) : (
-            <Redirect
-              to={{
-                pathname: "/signin",
-                state: { from: location }
-              }}
-            />
-          )
+          <Redirect
+            to={{
+              pathname: "/signin",
+              state: { from: location }
+            }}
+          />
+        )
       }
     />
   );

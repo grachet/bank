@@ -9,6 +9,7 @@ import { storage } from "../config/firebase";
 import DownloadIcon from "@material-ui/icons/AttachFile"
 import { useSnackbar } from 'notistack';
 import { deleteAccount } from '../functions/authFunctions';
+import PatchedPagination from '../components/PatchedPagination';
 
 const useStyles = makeStyles(theme => ({
   circularProgressIconButton: {
@@ -79,6 +80,9 @@ export default function BankManager({ account, setAccount }) {
             <Grid item xs={12}>
               <div className={classes.mtmd}>
                 <MaterialTable
+                  components={{
+                    Pagination: PatchedPagination,
+                  }}
                   localization={{
                     actions: null,
                     emptyDataSourceMessage: "No account found",
@@ -108,6 +112,9 @@ export default function BankManager({ account, setAccount }) {
               </div>
               <div className={classes.mtmd}>
                 <MaterialTable
+                  components={{
+                    Pagination: PatchedPagination,
+                  }}
                   localization={{
                     actions: null,
                     emptyDataSourceMessage: "No account need validation",
@@ -163,6 +170,9 @@ export default function BankManager({ account, setAccount }) {
               </div>
               <div className={classes.mtmd}>
                 <MaterialTable
+                  components={{
+                    Pagination: PatchedPagination,
+                  }}
                   localization={{
                     actions: null,
                     emptyDataSourceMessage: "No account need to be removed",

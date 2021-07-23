@@ -13,6 +13,7 @@ import * as Yup from "yup";
 import { writeAccount, makeTransfert, listenTransferts } from '../functions/firebaseFuntion';
 import MaterialTable from 'material-table';
 import { useSnackbar } from 'notistack';
+import PatchedPagination from '../components/PatchedPagination'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -67,11 +68,11 @@ export default function Account({ account, setAccount }) {
     listenTransferts(setTransferts)
   }, [])
 
-  let sortedTransferts = Object.values(transferts).filter(t => t.from === account.RIB || t.to === account.RIB)
+  let sortedTransferts = Object.values(transferts || {}).filter(t => t.from === account.RIB || t.to === account.RIB)
     .map(t => ({
       ...t, RIB: t.from === account.RIB ? t.to : t.from,
       ammount: t.from === account.RIB ? -t.ammount : t.ammount
-    }))
+    })).reverse()
 
   let deposits = sortedTransferts.reduce((a, b) => { return parseFloat(a) + parseFloat(b.ammount) }, 0)
 
@@ -95,6 +96,9 @@ export default function Account({ account, setAccount }) {
             <Grid item xs={12}>
               <div className={classes.mtmd}>
                 <MaterialTable
+                  components={{
+                    Pagination: PatchedPagination,
+                  }}
                   localization={{
                     actions: null,
                     emptyDataSourceMessage: "No transferts",
@@ -125,6 +129,9 @@ export default function Account({ account, setAccount }) {
             <Grid item xs={12}>
               <div className={classes.mtmd}>
                 <MaterialTable
+                  components={{
+                    Pagination: PatchedPagination,
+                  }}
                   localization={{
                     actions: null,
                     emptyDataSourceMessage: "No beneficiaries",

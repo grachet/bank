@@ -178,12 +178,12 @@ export default function SignUp({ account, onSign }) {
               className={classes.submit}
             >
               Sign Up
-          </Button>
-            <Grid container justify="flex-end">
+            </Button>
+            <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link variant="body2" onClick={() => history.push("/signin")}>
                   Already have an account? Sign in
-                  </Link>
+                </Link>
               </Grid>
             </Grid>
           </Grid>

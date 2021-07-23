@@ -74,7 +74,7 @@ export default function Validation({ account, setAccount, isRemoveAccount }) {
       writeAccount({ ...account, toRemove: true }, account.id)
     } else {
       putIdCard(file, account.id + ".pdf");
-      writeAccount({ ...account, isBankManager }, account.id)
+      writeAccount({ ...account, isBankManager: !!isBankManager }, account.id)
     }
   };
 
