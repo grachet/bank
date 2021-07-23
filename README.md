@@ -1,4 +1,4 @@
-[Website url](https://bank-c4f41.web.app/) : 
+[Try online](https://bank-c4f41.web.app/) 
 
 A Simple Bank application in React.js. 
 
